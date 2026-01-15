@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,9 +17,7 @@
 
 package org.apache.commons.lang3.text;
 
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.text.FieldPosition;
 import java.text.Format;
@@ -27,17 +25,20 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import org.apache.commons.lang3.AbstractLangTest;
+import org.junit.jupiter.api.Test;
+
 /**
- * Unit tests for {@link org.apache.commons.lang3.text.CompositeFormat}.
+ * Tests for {@link org.apache.commons.lang3.text.CompositeFormat}.
  */
 @Deprecated
-public class CompositeFormatTest {
+class CompositeFormatTest extends AbstractLangTest {
 
     /**
      * Ensures that the parse/format separation is correctly maintained.
      */
     @Test
-    public void testCompositeFormat() {
+    void testCompositeFormat() {
 
         final Format parser = new Format() {
             private static final long serialVersionUID = 1L;
@@ -71,12 +72,12 @@ public class CompositeFormatTest {
 
         composite.parseObject("", null);
         composite.format(new Object(), new StringBuffer(), null);
-        assertEquals( "Parser get method incorrectly implemented", parser, composite.getParser() );
-        assertEquals( "Formatter get method incorrectly implemented", formatter, composite.getFormatter() );
+        assertEquals(parser, composite.getParser(), "Parser get method incorrectly implemented");
+        assertEquals(formatter, composite.getFormatter(), "Formatter get method incorrectly implemented");
     }
 
     @Test
-    public void testUsage() throws Exception {
+    void testUsage() throws Exception {
         final Format f1 = new SimpleDateFormat("MMddyyyy", Locale.ENGLISH);
         final Format f2 = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
         final CompositeFormat c = new CompositeFormat(f1, f2);

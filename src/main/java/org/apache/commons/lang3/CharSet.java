@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,13 +22,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
- * <p>A set of characters.</p>
+ * A set of characters.
  *
  * <p>Instances are immutable, but instances of subclasses may not be.</p>
  *
  * <p>#ThreadSafe#</p>
+ *
  * @since 1.0
  */
 public class CharSet implements Serializable {
@@ -42,30 +44,35 @@ public class CharSet implements Serializable {
 
     /**
      * A CharSet defining no characters.
+     *
      * @since 2.0
      */
     public static final CharSet EMPTY = new CharSet((String) null);
 
     /**
      * A CharSet defining ASCII alphabetic characters "a-zA-Z".
+     *
      * @since 2.0
      */
     public static final CharSet ASCII_ALPHA = new CharSet("a-zA-Z");
 
     /**
      * A CharSet defining ASCII alphabetic characters "a-z".
+     *
      * @since 2.0
      */
     public static final CharSet ASCII_ALPHA_LOWER = new CharSet("a-z");
 
     /**
      * A CharSet defining ASCII alphabetic characters "A-Z".
+     *
      * @since 2.0
      */
     public static final CharSet ASCII_ALPHA_UPPER = new CharSet("A-Z");
 
     /**
      * A CharSet defining ASCII alphabetic characters "0-9".
+     *
      * @since 2.0
      */
     public static final CharSet ASCII_NUMERIC = new CharSet("0-9");
@@ -73,9 +80,10 @@ public class CharSet implements Serializable {
     /**
      * A Map of the common cases used in the factory.
      * Subclasses can add more common patterns if desired
+     *
      * @since 2.0
      */
-    protected static final Map<String, CharSet> COMMON = Collections.synchronizedMap(new HashMap<String, CharSet>());
+    protected static final Map<String, CharSet> COMMON = Collections.synchronizedMap(new HashMap<>());
 
     static {
         COMMON.put(null, EMPTY);
@@ -87,12 +95,8 @@ public class CharSet implements Serializable {
         COMMON.put("0-9", ASCII_NUMERIC);
     }
 
-    /** The set of CharRange objects. */
-    private final Set<CharRange> set = Collections.synchronizedSet(new HashSet<CharRange>());
-
-    //-----------------------------------------------------------------------
     /**
-     * <p>Factory method to create a new CharSet using a special syntax.</p>
+     * Factory method to create a new CharSet using a special syntax.
      *
      * <ul>
      *  <li>{@code null} or empty string ("")
@@ -109,10 +113,10 @@ public class CharSet implements Serializable {
      *
      * <p>The matching order is:</p>
      * <ol>
-     *  <li>Negated multi character range, such as "^a-e"
-     *  <li>Ordinary multi character range, such as "a-e"
-     *  <li>Negated single character, such as "^a"
-     *  <li>Ordinary single character, such as "a"
+     *  <li>Negated multi character range, such as "^a-e"</li>
+     *  <li>Ordinary multi character range, such as "a-e"</li>
+     *  <li>Negated single character, such as "^a"</li>
+     *  <li>Ordinary single character, such as "a"</li>
      * </ol>
      *
      * <p>Matching works left to right. Once a match is found the
@@ -132,7 +136,7 @@ public class CharSet implements Serializable {
      * <p>There are two ways to add a literal negation character ({@code ^}):</p>
      * <ul>
      *     <li>As the last character in a string, e.g. {@code CharSet.getInstance("a-z^")}</li>
-     *     <li>As a separate element, e.g. {@code CharSet.getInstance("^","a-z")}</li>
+     *     <li>As a separate element, e.g. {@code CharSet.getInstance("^", "a-z")}</li>
      * </ul>
      *
      * <p>Examples using the negation character:</p>
@@ -154,7 +158,7 @@ public class CharSet implements Serializable {
      */
     public static CharSet getInstance(final String... setStrs) {
         if (setStrs == null) {
-            return null;
+            return EMPTY;
         }
         if (setStrs.length == 1) {
             final CharSet common = COMMON.get(setStrs[0]);
@@ -165,24 +169,22 @@ public class CharSet implements Serializable {
         return new CharSet(setStrs);
     }
 
-    //-----------------------------------------------------------------------
+    /** The set of CharRange objects. */
+    private final Set<CharRange> set = Collections.synchronizedSet(new HashSet<>());
+
     /**
-     * <p>Constructs a new CharSet using the set syntax.
-     * Each string is merged in with the set.</p>
+     * Constructs a new CharSet using the set syntax.
+     * Each string is merged in with the set.
      *
      * @param set  Strings to merge into the initial set
      * @throws NullPointerException if set is {@code null}
      */
     protected CharSet(final String... set) {
-        super();
-        for (final String s : set) {
-            add(s);
-        }
+        Stream.of(set).forEach(this::add);
     }
 
-    //-----------------------------------------------------------------------
     /**
-     * <p>Add a set definition string to the {@code CharSet}.</p>
+     * Add a set definition string to the {@link CharSet}.
      *
      * @param str  set definition string
      */
@@ -215,43 +217,24 @@ public class CharSet implements Serializable {
         }
     }
 
-    //-----------------------------------------------------------------------
     /**
-     * <p>Gets the internal set as an array of CharRange objects.</p>
-     *
-     * @return an array of immutable CharRange objects
-     * @since 2.0
-     */
-// NOTE: This is no longer public as CharRange is no longer a public class.
-//       It may be replaced when CharSet moves to Range.
-    /*public*/ CharRange[] getCharRanges() {
-        return set.toArray(new CharRange[set.size()]);
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * <p>Does the {@code CharSet} contain the specified
-     * character {@code ch}.</p>
+     * Does the {@link CharSet} contain the specified
+     * character {@code ch}.
      *
      * @param ch  the character to check for
      * @return {@code true} if the set contains the characters
      */
     public boolean contains(final char ch) {
-        for (final CharRange range : set) {
-            if (range.contains(ch)) {
-                return true;
-            }
+        synchronized (set) {
+            return set.stream().anyMatch(range -> range.contains(ch));
         }
-        return false;
     }
 
-    // Basics
-    //-----------------------------------------------------------------------
     /**
-     * <p>Compares two {@code CharSet} objects, returning true if they represent
-     * exactly the same set of characters defined in the same way.</p>
+     * Compares two {@link CharSet} objects, returning true if they represent
+     * exactly the same set of characters defined in the same way.
      *
-     * <p>The two sets {@code abc} and {@code a-c} are <i>not</i>
+     * <p>The two sets {@code abc} and {@code a-c} are <em>not</em>
      * equal according to this method.</p>
      *
      * @param obj  the object to compare to
@@ -271,7 +254,19 @@ public class CharSet implements Serializable {
     }
 
     /**
-     * <p>Gets a hash code compatible with the equals method.</p>
+     * Gets the internal set as an array of CharRange objects.
+     *
+     * @return an array of immutable CharRange objects
+     * @since 2.0
+     */
+// NOTE: This is no longer public as CharRange is no longer a public class.
+//       It may be replaced when CharSet moves to Range.
+    /*public*/ CharRange[] getCharRanges() {
+        return set.toArray(CharRange.EMPTY_ARRAY);
+    }
+
+    /**
+     * Gets a hash code compatible with the equals method.
      *
      * @return a suitable hash code
      * @since 2.0
@@ -282,7 +277,7 @@ public class CharSet implements Serializable {
     }
 
     /**
-     * <p>Gets a string representation of the set.</p>
+     * Gets a string representation of the set.
      *
      * @return string representation of the set
      */

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@ package org.apache.commons.lang3.arch;
 /**
  * The {@link Processor} represents a microprocessor and defines
  * some properties like architecture and type of the microprocessor.
+ *
  * @since 3.6
  */
 public class Processor {
@@ -29,9 +30,9 @@ public class Processor {
      * of the microprocessor.
      * The following architectures are defined:
      * <ul>
-     *     <li>32 bit</li>
-     *     <li>64 bit</li>
-     *     <li>unknown</li>
+     *     <li>32-bit</li>
+     *     <li>64-bit</li>
+     *     <li>Unknown</li>
      * </ul>
      */
     public enum Arch {
@@ -39,50 +40,104 @@ public class Processor {
         /**
          * A 32-bit processor architecture.
          */
-        BIT_32,
+        BIT_32("32-bit"),
 
         /**
          * A 64-bit processor architecture.
          */
-        BIT_64,
+        BIT_64("64-bit"),
 
         /**
          * An unknown-bit processor architecture.
          */
-        UNKNOWN
+        UNKNOWN("Unknown");
+
+        /**
+         * A label suitable for display.
+         */
+        private final String label;
+
+        Arch(final String label) {
+            this.label = label;
+        }
+
+        /**
+         * Gets the label suitable for display.
+         *
+         * @return the label.
+         */
+        public String getLabel() {
+            return label;
+        }
     }
 
     /**
      * The {@link Type} enum defines types of a microprocessor.
      * The following types are defined:
      * <ul>
+     *     <li>AArch64</li>
      *     <li>x86</li>
      *     <li>ia64</li>
-     *     <li>ppc</li>
-     *     <li>unknown</li>
+     *     <li>PPC</li>
+     *     <li>RISCV</li>
+     *     <li>Unknown</li>
      * </ul>
      */
     public enum Type {
 
         /**
-         * Intel x86 series of instruction set architectures.
+         * ARM 64-bit.
+         *
+         * @since 3.13.0
          */
-        X86,
+        AARCH_64("AArch64"),
 
         /**
-         * Intel Itanium  64-bit architecture.
+         * Intel x86 series of instruction set architectures.
          */
-        IA_64,
+        X86("x86"),
+
+        /**
+         * Intel Itanium 64-bit architecture.
+         */
+        IA_64("IA-64"),
 
         /**
          * Apple–IBM–Motorola PowerPC architecture.
          */
-        PPC,
+        PPC("PPC"),
+
+        /**
+         * RISC-V architecture.
+         *
+         * @since 3.14.0
+         */
+        RISC_V("RISC-V"),
 
         /**
          * Unknown architecture.
          */
-        UNKNOWN
+        UNKNOWN("Unknown");
+
+        /**
+         * A label suitable for display.
+         */
+        private final String label;
+
+        Type(final String label) {
+            this.label = label;
+        }
+
+        /**
+         * Gets the label suitable for display.
+         *
+         * @return the label.
+         * @since 3.13.0
+         */
+        public String getLabel() {
+            return label;
+        }
+
     }
 
     private final Arch arch;
@@ -101,7 +156,7 @@ public class Processor {
     }
 
     /**
-     * Returns the processor architecture as an {@link Arch} enum.
+     * Gets the processor architecture as an {@link Arch} enum.
      * The processor architecture defines, if the processor has
      * a 32 or 64 bit architecture.
      *
@@ -112,9 +167,9 @@ public class Processor {
     }
 
     /**
-     * Returns the processor type as {@link Type} enum.
+     * Gets the processor type as {@link Type} enum.
      * The processor type defines, if the processor is for example
-     * a x86 or PPA.
+     * an x86 or PPA.
      *
      * @return A {@link Type} enum.
      */
@@ -123,48 +178,75 @@ public class Processor {
     }
 
     /**
-     * Checks if {@link Processor} is 32 bit.
+     * Tests if {@link Processor} is 32 bit.
      *
-     * @return <code>true</code>, if {@link Processor} is {@link Arch#BIT_32}, else <code>false</code>.
+     * @return {@code true}, if {@link Processor} is {@link Arch#BIT_32}, else {@code false}.
      */
     public boolean is32Bit() {
-        return Arch.BIT_32.equals(arch);
+        return Arch.BIT_32 == arch;
     }
 
     /**
-     * Checks if {@link Processor} is 64 bit.
+     * Tests if {@link Processor} is 64 bit.
      *
-     * @return <code>true</code>, if {@link Processor} is {@link Arch#BIT_64}, else <code>false</code>.
+     * @return {@code true}, if {@link Processor} is {@link Arch#BIT_64}, else {@code false}.
      */
     public boolean is64Bit() {
-        return Arch.BIT_64.equals(arch);
+        return Arch.BIT_64 == arch;
     }
 
     /**
-     * Checks if {@link Processor} is type of x86.
+     * Tests if {@link Processor} is type of Aarch64.
      *
-     * @return <code>true</code>, if {@link Processor} is {@link Type#X86}, else <code>false</code>.
+     * @return {@code true}, if {@link Processor} is {@link Type#AARCH_64}, else {@code false}.
+     * @since 3.13.0
      */
-    public boolean isX86() {
-        return Type.X86.equals(type);
+    public boolean isAarch64() {
+        return Type.AARCH_64 == type;
     }
 
     /**
-     * Checks if {@link Processor} is type of Intel Itanium.
+     * Tests if {@link Processor} is type of Intel Itanium.
      *
-     * @return <code>true</code>. if {@link Processor} is {@link Type#IA_64}, else <code>false</code>.
+     * @return {@code true}. if {@link Processor} is {@link Type#IA_64}, else {@code false}.
      */
     public boolean isIA64() {
-        return Type.IA_64.equals(type);
+        return Type.IA_64 == type;
     }
 
     /**
-     * Checks if {@link Processor} is type of Power PC.
+     * Tests if {@link Processor} is type of Power PC.
      *
-     * @return <code>true</code>. if {@link Processor} is {@link Type#PPC}, else <code>false</code>.
+     * @return {@code true}. if {@link Processor} is {@link Type#PPC}, else {@code false}.
      */
     public boolean isPPC() {
-        return Type.PPC.equals(type);
+        return Type.PPC == type;
+    }
+
+    /**
+     * Tests if {@link Processor} is type of RISC-V.
+     *
+     * @return {@code true}. if {@link Processor} is {@link Type#RISC_V}, else {@code false}.
+     * @since 3.14.0
+     */
+    public boolean isRISCV() {
+        return Type.RISC_V == type;
+    }
+
+    /**
+     * Tests if {@link Processor} is type of x86.
+     *
+     * @return {@code true}, if {@link Processor} is {@link Type#X86}, else {@code false}.
+     */
+    public boolean isX86() {
+        return Type.X86 == type;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(type.getLabel()).append(' ').append(arch.getLabel());
+        return builder.toString();
     }
 
 }

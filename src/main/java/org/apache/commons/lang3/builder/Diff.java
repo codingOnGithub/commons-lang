@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,101 +17,92 @@
 package org.apache.commons.lang3.builder;
 
 import java.lang.reflect.Type;
+import java.util.Objects;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.reflect.TypeUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
- * <p>
- * A {@code Diff} contains the differences between two {@link Diffable} class
- * fields.
- * </p>
+ * A {@link Diff} contains the differences between two {@link Diffable} class fields.
  *
  * <p>
- * Typically, {@code Diff}s are retrieved by using a {@link DiffBuilder} to
- * produce a {@link DiffResult}, containing the differences between two objects.
+ * Typically, {@link Diff}s are retrieved by using a {@link DiffBuilder} to produce a {@link DiffResult}, containing the differences between two objects.
  * </p>
  *
- *
- * @param <T>
- *            The type of object contained within this {@code Diff}. Differences
- *            between primitive objects are stored as their Object wrapper
- *            equivalent.
+ * @param <T> The type of object contained within this {@link Diff}. Differences between primitive objects are stored as their Object wrapper equivalent.
  * @since 3.3
  */
 public abstract class Diff<T> extends Pair<T, T> {
 
     private static final long serialVersionUID = 1L;
 
+    /** The field type. */
     private final Type type;
+
+    /** The field name. */
     private final String fieldName;
 
     /**
-     * <p>
-     * Constructs a new {@code Diff} for the given field name.
-     * </p>
+     * Constructs a new {@link Diff} for the given field name.
      *
      * @param fieldName
-     *            the name of the field
+     *            the field name.
      */
     protected Diff(final String fieldName) {
-        this.type = ObjectUtils.defaultIfNull(
-                TypeUtils.getTypeArguments(getClass(), Diff.class).get(
-                        Diff.class.getTypeParameters()[0]), Object.class);
-        this.fieldName = fieldName;
+        this.fieldName = Objects.requireNonNull(fieldName);
+        this.type = ObjectUtils.getIfNull(TypeUtils.getTypeArguments(getClass(), Diff.class).get(Diff.class.getTypeParameters()[0]), Object.class);
+    }
+
+    Diff(final String fieldName, final Type type) {
+        this.fieldName = Objects.requireNonNull(fieldName);
+        this.type = Objects.requireNonNull(type);
     }
 
     /**
-     * <p>
-     * Returns the type of the field.
-     * </p>
+     * Gets the name of the field.
      *
-     * @return the field type
-     */
-    public final Type getType() {
-        return type;
-    }
-
-    /**
-     * <p>
-     * Returns the name of the field.
-     * </p>
-     *
-     * @return the field name
+     * @return the field name.
      */
     public final String getFieldName() {
         return fieldName;
     }
 
     /**
-     * <p>
-     * Returns a {@code String} representation of the {@code Diff}, with the
-     * following format:</p>
+     * Gets the type of the field.
+     *
+     * @return the field type.
+     * @deprecated Unused, will be removed in 4.0.0.
+     */
+    @Deprecated
+    public final Type getType() {
+        return type;
+    }
+
+    /**
+     * Throws {@link UnsupportedOperationException}.
+     *
+     * @param value
+     *            ignored.
+     * @return Throws {@link UnsupportedOperationException}.
+     */
+    @Override
+    public final T setValue(final T value) {
+        throw new UnsupportedOperationException("Cannot alter Diff object.");
+    }
+
+    /**
+     * Returns a {@link String} representation of the {@link Diff}, with the
+     * following format:
      *
      * <pre>
      * [fieldname: left-value, right-value]
      * </pre>
      *
-     *
-     * @return the string representation
+     * @return the string representation.
      */
     @Override
     public final String toString() {
         return String.format("[%s: %s, %s]", fieldName, getLeft(), getRight());
-    }
-
-    /**
-     * <p>
-     * Throws {@code UnsupportedOperationException}.
-     * </p>
-     *
-     * @param value
-     *            ignored
-     * @return nothing
-     */
-    @Override
-    public final T setValue(final T value) {
-        throw new UnsupportedOperationException("Cannot alter Diff object.");
     }
 }

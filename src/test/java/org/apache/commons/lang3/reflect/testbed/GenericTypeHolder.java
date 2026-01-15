@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,9 +21,24 @@ import java.util.List;
 /**
  * Holds generic testbed types.
  */
+@SuppressWarnings("rawtypes")
 public class GenericTypeHolder {
     public GenericParent<String> stringParent;
     public GenericParent<Integer> integerParent;
     public List<Foo> foos;
     public GenericParent<Bar>[] barParents;
+    public List rawList;
+    public List<Object> objectList;
+    public List<?> unboundList;
+    public List<? super Object> superObjectList;
+    public List<String> stringList;
+    public List<? extends String> subStringList;
+    public List<? super String> superStringList;
+    public List[] rawListArray;
+    public List<Object>[] objectListArray;
+    public List<?>[] unboundListArray;
+    public List<? super Object>[] superObjectListArray;
+    public List<String>[] stringListArray;
+    public List<? extends String>[] subStringListArray;
+    public List<? super String>[] superStringListArray;
 }

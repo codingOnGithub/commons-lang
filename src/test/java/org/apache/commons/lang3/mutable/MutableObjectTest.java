@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,84 +16,89 @@
  */
 package org.apache.commons.lang3.mutable;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
-import org.junit.Test;
-
+import org.apache.commons.lang3.AbstractLangTest;
+import org.junit.jupiter.api.Test;
 
 /**
  * JUnit tests.
  *
  * @see MutableShort
  */
-public class MutableObjectTest {
+class MutableObjectTest extends AbstractLangTest {
 
-    // ----------------------------------------------------------------
     @Test
-    public void testConstructors() {
-        assertNull(new MutableObject<String>().getValue());
+    void testConstructors() {
+        assertNull(new MutableObject<String>().get());
 
         final Integer i = Integer.valueOf(6);
-        assertSame(i, new MutableObject<>(i).getValue());
-        assertSame("HI", new MutableObject<>("HI").getValue());
-        assertSame(null, new MutableObject<>(null).getValue());
+        assertSame(i, new MutableObject<>(i).get());
+        assertSame("HI", new MutableObject<>("HI").get());
+        assertSame(null, new MutableObject<>(null).get());
     }
 
     @Test
-    public void testGetSet() {
+    void testEquals() {
+        final MutableObject<String> mutNumA = new MutableObject<>("ALPHA");
+        final MutableObject<String> mutNumB = new MutableObject<>("ALPHA");
+        final MutableObject<String> mutNumC = new MutableObject<>("BETA");
+        final MutableObject<String> mutNumNull1 = new MutableObject<>(null);
+        final MutableObject<String> mutNumNull2 = new MutableObject<>(null);
+        assertFalse(mutNumA.equals(null));
+        assertEquals(mutNumA, mutNumA);
+        assertEquals(mutNumA, mutNumB);
+        assertEquals(mutNumB, mutNumA);
+        assertEquals(mutNumB, mutNumB);
+        assertNotEquals(mutNumA, mutNumC);
+        assertNotEquals(mutNumB, mutNumC);
+        assertEquals(mutNumC, mutNumC);
+        assertNotEquals(mutNumA, mutNumNull1);
+        assertEquals(mutNumNull1, mutNumNull1);
+        assertEquals(mutNumNull1, mutNumNull2);
+        assertEquals(mutNumNull2, mutNumNull1);
+
+        assertNotEquals(null, mutNumA);
+        assertNotEquals(mutNumA, new Object());
+        assertNotEquals("0", mutNumA);
+    }
+
+    @Test
+    void testGetSet() {
         final MutableObject<String> mutNum = new MutableObject<>();
+        assertNull(new MutableObject<>().get());
         assertNull(new MutableObject<>().getValue());
 
         mutNum.setValue("HELLO");
+        assertSame("HELLO", mutNum.get());
         assertSame("HELLO", mutNum.getValue());
 
         mutNum.setValue(null);
+        assertSame(null, mutNum.get());
         assertSame(null, mutNum.getValue());
     }
 
     @Test
-    public void testEquals() {
+    void testHashCode() {
         final MutableObject<String> mutNumA = new MutableObject<>("ALPHA");
         final MutableObject<String> mutNumB = new MutableObject<>("ALPHA");
         final MutableObject<String> mutNumC = new MutableObject<>("BETA");
         final MutableObject<String> mutNumD = new MutableObject<>(null);
 
-        assertTrue(mutNumA.equals(mutNumA));
-        assertTrue(mutNumA.equals(mutNumB));
-        assertTrue(mutNumB.equals(mutNumA));
-        assertTrue(mutNumB.equals(mutNumB));
-        assertFalse(mutNumA.equals(mutNumC));
-        assertFalse(mutNumB.equals(mutNumC));
-        assertTrue(mutNumC.equals(mutNumC));
-        assertFalse(mutNumA.equals(mutNumD));
-        assertTrue(mutNumD.equals(mutNumD));
-
-        assertFalse(mutNumA.equals(null));
-        assertFalse(mutNumA.equals(new Object()));
-        assertFalse(mutNumA.equals("0"));
-    }
-
-    @Test
-    public void testHashCode() {
-        final MutableObject<String> mutNumA = new MutableObject<>("ALPHA");
-        final MutableObject<String> mutNumB = new MutableObject<>("ALPHA");
-        final MutableObject<String> mutNumC = new MutableObject<>("BETA");
-        final MutableObject<String> mutNumD = new MutableObject<>(null);
-
-        assertTrue(mutNumA.hashCode() == mutNumA.hashCode());
-        assertTrue(mutNumA.hashCode() == mutNumB.hashCode());
-        assertFalse(mutNumA.hashCode() == mutNumC.hashCode());
-        assertFalse(mutNumA.hashCode() == mutNumD.hashCode());
-        assertTrue(mutNumA.hashCode() == "ALPHA".hashCode());
+        assertEquals(mutNumA.hashCode(), mutNumA.hashCode());
+        assertEquals(mutNumA.hashCode(), mutNumB.hashCode());
+        assertNotEquals(mutNumA.hashCode(), mutNumC.hashCode());
+        assertNotEquals(mutNumA.hashCode(), mutNumD.hashCode());
+        assertEquals(mutNumA.hashCode(), "ALPHA".hashCode());
         assertEquals(0, mutNumD.hashCode());
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertEquals("HI", new MutableObject<>("HI").toString());
         assertEquals("10.0", new MutableObject<>(Double.valueOf(10)).toString());
         assertEquals("null", new MutableObject<>(null).toString());

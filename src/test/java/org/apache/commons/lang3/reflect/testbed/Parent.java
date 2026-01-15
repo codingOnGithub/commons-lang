@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,9 +19,11 @@ package org.apache.commons.lang3.reflect.testbed;
 /**
  */
 class Parent implements Foo {
+
     public String s = "s";
-    protected boolean b = false;
-    int i = 0;
+    protected boolean b;
+    int i;
+
     @SuppressWarnings("unused")
     private final double d = 0.0;
 
@@ -29,10 +31,10 @@ class Parent implements Foo {
     public void doIt() {
     }
 
-    @Annotated
-    protected void parentProtectedAnnotatedMethod() {
+    public void parentNotAnnotatedMethod() {
     }
 
-    public void parentNotAnnotatedMethod() {
+    @Annotated
+    protected void parentProtectedAnnotatedMethod() {
     }
 }

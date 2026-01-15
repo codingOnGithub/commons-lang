@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,36 +17,37 @@
 
 package org.apache.commons.lang3.text.translate;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.io.StringWriter;
 
-import org.junit.Test;
+import org.apache.commons.lang3.AbstractLangTest;
+import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link org.apache.commons.lang3.text.translate.LookupTranslator}.
+ * Tests for {@link org.apache.commons.lang3.text.translate.LookupTranslator}.
  */
 @Deprecated
-public class LookupTranslatorTest  {
+class LookupTranslatorTest extends AbstractLangTest {
 
     @Test
-    public void testBasicLookup() throws IOException {
+    void testBasicLookup() throws IOException {
         final LookupTranslator lt = new LookupTranslator(new CharSequence[][] { { "one", "two" } });
         final StringWriter out = new StringWriter();
         final int result = lt.translate("one", 0, out);
-        assertEquals("Incorrect codepoint consumption", 3, result);
-        assertEquals("Incorrect value", "two", out.toString());
+        assertEquals(3, result, "Incorrect code point consumption");
+        assertEquals("two", out.toString(), "Incorrect value");
     }
 
     // Tests: https://issues.apache.org/jira/browse/LANG-882
     @Test
-    public void testLang882() throws IOException {
+    void testLang882() throws IOException {
         final LookupTranslator lt = new LookupTranslator(new CharSequence[][] { { new StringBuffer("one"), new StringBuffer("two") } });
         final StringWriter out = new StringWriter();
         final int result = lt.translate(new StringBuffer("one"), 0, out);
-        assertEquals("Incorrect codepoint consumption", 3, result);
-        assertEquals("Incorrect value", "two", out.toString());
+        assertEquals(3, result, "Incorrect code point consumption");
+        assertEquals("two", out.toString(), "Incorrect value");
     }
 
 }

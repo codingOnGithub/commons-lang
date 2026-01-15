@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,9 +25,10 @@ import java.text.ParsePosition;
  * Formats using one formatter and parses using a different formatter. An
  * example of use for this would be a webapp where data is taken in one way and
  * stored in a database another way.
- * @deprecated as of 3.6, use commons-text
+ *
+ * @deprecated As of <a href="https://commons.apache.org/proper/commons-lang/changes-report.html#a3.6">3.6</a>, use Apache Commons Text
  * <a href="https://commons.apache.org/proper/commons-text/javadocs/api-release/org/apache/commons/text/CompositeFormat.html">
- * CompositeFormat</a> instead
+ * CompositeFormat</a>.
  */
 @Deprecated
 public class CompositeFormat extends Format {
@@ -41,6 +42,7 @@ public class CompositeFormat extends Format {
 
     /** The parser to use. */
     private final Format parser;
+
     /** The formatter to use. */
     private final Format formatter;
 
@@ -62,13 +64,31 @@ public class CompositeFormat extends Format {
      * @param obj the object to format
      * @param toAppendTo the {@link StringBuffer} to append to
      * @param pos the FieldPosition to use (or ignore).
-     * @return <code>toAppendTo</code>
+     * @return {@code toAppendTo}
      * @see Format#format(Object, StringBuffer, FieldPosition)
      */
     @Override // Therefore has to use StringBuffer
     public StringBuffer format(final Object obj, final StringBuffer toAppendTo,
             final FieldPosition pos) {
         return formatter.format(obj, toAppendTo, pos);
+    }
+
+    /**
+     * Provides access to the parser Format implementation.
+     *
+     * @return formatter Format implementation
+     */
+    public Format getFormatter() {
+        return this.formatter;
+    }
+
+    /**
+     * Provides access to the parser Format implementation.
+     *
+     * @return parser Format implementation
+     */
+    public Format getParser() {
+        return this.parser;
     }
 
     /**
@@ -84,24 +104,6 @@ public class CompositeFormat extends Format {
     @Override
     public Object parseObject(final String source, final ParsePosition pos) {
         return parser.parseObject(source, pos);
-    }
-
-    /**
-     * Provides access to the parser Format implementation.
-     *
-     * @return parser Format implementation
-     */
-    public Format getParser() {
-        return this.parser;
-    }
-
-    /**
-     * Provides access to the parser Format implementation.
-     *
-     * @return formatter Format implementation
-     */
-    public Format getFormatter() {
-        return this.formatter;
     }
 
     /**

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,13 +23,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Test;
+import org.apache.commons.lang3.AbstractLangTest;
+import org.apache.commons.lang3.concurrent.UncheckedFuture;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests concurrent access for the default {@link ToStringStyle}.
@@ -43,9 +44,8 @@ import org.junit.Test;
  *
  * @see <a href="https://issues.apache.org/jira/browse/LANG-762">[LANG-762] Handle or document ReflectionToStringBuilder
  *      and ToStringBuilder for collections that are not thread safe</a>
- * @since 3.1
  */
-public class ToStringStyleConcurrencyTest {
+class ToStringStyleConcurrencyTest extends AbstractLangTest {
 
     static class CollectionHolder<T extends Collection<?>> {
         T collection;
@@ -67,46 +67,43 @@ public class ToStringStyleConcurrencyTest {
     }
 
     @Test
-    public void testLinkedList() throws InterruptedException, ExecutionException {
-        this.testConcurrency(new CollectionHolder<List<Integer>>(new LinkedList<Integer>()));
+    void testArrayList() throws InterruptedException {
+        testConcurrency(new CollectionHolder<>(new ArrayList<>()));
     }
 
-    @Test
-    public void testArrayList() throws InterruptedException, ExecutionException {
-        this.testConcurrency(new CollectionHolder<List<Integer>>(new ArrayList<Integer>()));
-    }
-
-    @Test
-    public void testCopyOnWriteArrayList() throws InterruptedException, ExecutionException {
-        this.testConcurrency(new CollectionHolder<List<Integer>>(new CopyOnWriteArrayList<Integer>()));
-    }
-
-    private void testConcurrency(final CollectionHolder<List<Integer>> holder) throws InterruptedException,
-            ExecutionException {
+    private void testConcurrency(final CollectionHolder<List<Integer>> holder) throws InterruptedException {
         final List<Integer> list = holder.collection;
         // make a big array that takes a long time to toString()
         list.addAll(LIST);
         // Create a thread pool with two threads to cause the most contention on the underlying resource.
         final ExecutorService threadPool = Executors.newFixedThreadPool(2);
-        // Consumes toStrings
-        final Callable<Integer> consumer = new Callable<Integer>() {
-            @Override
-            public Integer call() {
+        try {
+            // Consumes toStrings
+            final Callable<Integer> consumer = () -> {
                 for (int i = 0; i < REPEAT; i++) {
                     // Calls ToStringStyle
                     new ToStringBuilder(holder).append(holder.collection);
                 }
                 return Integer.valueOf(REPEAT);
-            }
-        };
-        final Collection<Callable<Integer>> tasks = new ArrayList<>();
-        tasks.add(consumer);
-        tasks.add(consumer);
-        final List<Future<Integer>> futures = threadPool.invokeAll(tasks);
-        for (final Future<Integer> future : futures) {
-            future.get();
+            };
+            final Collection<Callable<Integer>> tasks = new ArrayList<>();
+            tasks.add(consumer);
+            tasks.add(consumer);
+            final List<Future<Integer>> futures = threadPool.invokeAll(tasks);
+            UncheckedFuture.on(futures).forEach(UncheckedFuture::get);
+        } finally {
+            threadPool.shutdown();
+            threadPool.awaitTermination(1, TimeUnit.SECONDS);
         }
-        threadPool.shutdown();
-        threadPool.awaitTermination(1, TimeUnit.SECONDS);
+    }
+
+    @Test
+    void testCopyOnWriteArrayList() throws InterruptedException {
+        testConcurrency(new CollectionHolder<>(new CopyOnWriteArrayList<>()));
+    }
+
+    @Test
+    void testLinkedList() throws InterruptedException {
+        testConcurrency(new CollectionHolder<>(new LinkedList<>()));
     }
 }

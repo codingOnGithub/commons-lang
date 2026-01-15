@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,7 +21,7 @@ import java.util.Collection;
 import org.apache.commons.lang3.ClassUtils;
 
 /**
- * <p>Works with {@link ToStringBuilder} to create a "deep" <code>toString</code>.</p>
+ * Works with {@link ToStringBuilder} to create a "deep" {@code toString}.
  *
  * <p>To use this class write code as follows:</p>
  *
@@ -46,7 +46,7 @@ import org.apache.commons.lang3.ClassUtils;
  * </pre>
  *
  * <p>This will produce a toString of the format:
- * <code>Person@7f54[name=Stephen,age=29,smoker=false,job=Job@43cd2[title=Manager]]</code></p>
+ * {@code Person@7f54[name=Stephen,age=29,smoker=false,job=Job@43cd2[title=Manager]]}</p>
  *
  * @since 3.2
  */
@@ -60,10 +60,29 @@ public class RecursiveToStringStyle extends ToStringStyle {
     private static final long serialVersionUID = 1L;
 
     /**
-     * <p>Constructor.</p>
+     * Constructs a new instance.
      */
     public RecursiveToStringStyle() {
-        super();
+    }
+
+    /**
+     * Returns whether or not to recursively format the given {@link Class}.
+     * By default, this method always returns {@code true}, but may be overwritten by
+     * subclasses to filter specific classes.
+     *
+     * @param clazz
+     *            The class to test.
+     * @return Whether or not to recursively format the given {@link Class}.
+     */
+    protected boolean accept(final Class<?> clazz) {
+        return true;
+    }
+
+    @Override
+    protected void appendDetail(final StringBuffer buffer, final String fieldName, final Collection<?> coll) {
+        appendClassName(buffer, coll);
+        appendIdentityHashCode(buffer, coll);
+        appendDetail(buffer, fieldName, coll.toArray());
     }
 
     @Override
@@ -75,25 +94,5 @@ public class RecursiveToStringStyle extends ToStringStyle {
         } else {
             super.appendDetail(buffer, fieldName, value);
         }
-    }
-
-    @Override
-    protected void appendDetail(final StringBuffer buffer, final String fieldName, final Collection<?> coll) {
-        appendClassName(buffer, coll);
-        appendIdentityHashCode(buffer, coll);
-        appendDetail(buffer, fieldName, coll.toArray());
-    }
-
-    /**
-     * Returns whether or not to recursively format the given <code>Class</code>.
-     * By default, this method always returns {@code true}, but may be overwritten by
-     * sub-classes to filter specific classes.
-     *
-     * @param clazz
-     *            The class to test.
-     * @return Whether or not to recursively format the given <code>Class</code>.
-     */
-    protected boolean accept(final Class<?> clazz) {
-        return true;
     }
 }

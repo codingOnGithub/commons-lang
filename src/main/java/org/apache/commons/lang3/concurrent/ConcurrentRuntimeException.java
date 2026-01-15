@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,10 +17,9 @@
 package org.apache.commons.lang3.concurrent;
 
 /**
- * <p>
  * An exception class used for reporting runtime error conditions related to
  * accessing data of background tasks.
- * </p>
+ *
  * <p>
  * This class is an analogue of the {@link ConcurrentException} exception class.
  * However, it is a runtime exception and thus does not need explicit catch
@@ -33,6 +32,7 @@ package org.apache.commons.lang3.concurrent;
  * @since 3.0
  */
 public class ConcurrentRuntimeException extends RuntimeException {
+
     /**
      * The serial version UID.
      */
@@ -43,22 +43,10 @@ public class ConcurrentRuntimeException extends RuntimeException {
      * ConcurrentRuntimeException}.
      */
     protected ConcurrentRuntimeException() {
-        super();
     }
 
     /**
-     * Creates a new instance of {@code ConcurrentRuntimeException} and
-     * initializes it with the given cause.
-     *
-     * @param cause the cause of this exception
-     * @throws IllegalArgumentException if the cause is not a checked exception
-     */
-    public ConcurrentRuntimeException(final Throwable cause) {
-        super(ConcurrentUtils.checkedException(cause));
-    }
-
-    /**
-     * Creates a new instance of {@code ConcurrentRuntimeException} and
+     * Creates a new instance of {@link ConcurrentRuntimeException} and
      * initializes it with the given message and cause.
      *
      * @param msg the error message
@@ -67,5 +55,16 @@ public class ConcurrentRuntimeException extends RuntimeException {
      */
     public ConcurrentRuntimeException(final String msg, final Throwable cause) {
         super(msg, ConcurrentUtils.checkedException(cause));
+    }
+
+    /**
+     * Creates a new instance of {@link ConcurrentRuntimeException} and
+     * initializes it with the given cause.
+     *
+     * @param cause the cause of this exception
+     * @throws IllegalArgumentException if the cause is not a checked exception
+     */
+    public ConcurrentRuntimeException(final Throwable cause) {
+        super(ConcurrentUtils.checkedException(cause));
     }
 }

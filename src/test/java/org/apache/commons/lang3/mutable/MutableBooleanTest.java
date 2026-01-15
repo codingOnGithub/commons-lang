@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,22 +17,24 @@
 
 package org.apache.commons.lang3.mutable;
 
-import org.junit.Test;
+import static org.apache.commons.lang3.LangAssertions.assertNullPointerException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.apache.commons.lang3.AbstractLangTest;
+import org.junit.jupiter.api.Test;
 
 /**
  * JUnit tests.
  *
- * @since 2.2
  * @see MutableBoolean
  */
-public class MutableBooleanTest {
+class MutableBooleanTest extends AbstractLangTest {
 
     @Test
-    public void testCompareTo() {
+    void testCompareTo() {
         final MutableBoolean mutBool = new MutableBoolean(false);
 
         assertEquals(0, mutBool.compareTo(new MutableBoolean(false)));
@@ -42,15 +44,19 @@ public class MutableBooleanTest {
         assertEquals(0, mutBool.compareTo(new MutableBoolean(true)));
     }
 
-    @Test(expected=NullPointerException.class)
-    public void testCompareToNull() {
+    @Test
+    void testCompareToNull() {
         final MutableBoolean mutBool = new MutableBoolean(false);
-        mutBool.compareTo(null);
+        assertNullPointerException(() -> mutBool.compareTo(null));
     }
 
-    // ----------------------------------------------------------------
     @Test
-    public void testConstructors() {
+    void testConstructorNull() {
+        assertNullPointerException(() -> new MutableBoolean(null));
+    }
+
+    @Test
+    void testConstructors() {
         assertFalse(new MutableBoolean().booleanValue());
 
         assertTrue(new MutableBoolean(true).booleanValue());
@@ -61,32 +67,28 @@ public class MutableBooleanTest {
 
     }
 
-    @Test(expected=NullPointerException.class)
-    public void testConstructorNull() {
-        new MutableBoolean(null);
-    }
-
     @Test
-    public void testEquals() {
+    void testEquals() {
         final MutableBoolean mutBoolA = new MutableBoolean(false);
         final MutableBoolean mutBoolB = new MutableBoolean(false);
         final MutableBoolean mutBoolC = new MutableBoolean(true);
 
-        assertTrue(mutBoolA.equals(mutBoolA));
-        assertTrue(mutBoolA.equals(mutBoolB));
-        assertTrue(mutBoolB.equals(mutBoolA));
-        assertTrue(mutBoolB.equals(mutBoolB));
-        assertFalse(mutBoolA.equals(mutBoolC));
-        assertFalse(mutBoolB.equals(mutBoolC));
-        assertTrue(mutBoolC.equals(mutBoolC));
-        assertFalse(mutBoolA.equals(null));
-        assertFalse(mutBoolA.equals(Boolean.FALSE));
-        assertFalse(mutBoolA.equals("false"));
+        assertEquals(mutBoolA, mutBoolA);
+        assertEquals(mutBoolA, mutBoolB);
+        assertEquals(mutBoolB, mutBoolA);
+        assertEquals(mutBoolB, mutBoolB);
+        assertNotEquals(mutBoolA, mutBoolC);
+        assertNotEquals(mutBoolB, mutBoolC);
+        assertEquals(mutBoolC, mutBoolC);
+        assertNotEquals(null, mutBoolA);
+        assertNotEquals(mutBoolA, Boolean.FALSE);
+        assertNotEquals("false", mutBoolA);
     }
 
     @Test
-    public void testGetSet() {
+    void testGetSet() {
         assertFalse(new MutableBoolean().booleanValue());
+        assertEquals(Boolean.FALSE, new MutableBoolean().get());
         assertEquals(Boolean.FALSE, new MutableBoolean().getValue());
 
         final MutableBoolean mutBool = new MutableBoolean(false);
@@ -115,27 +117,27 @@ public class MutableBooleanTest {
 
     }
 
-    @Test(expected=NullPointerException.class)
-    public void testSetNull() {
-        final MutableBoolean mutBool = new MutableBoolean(false);
-        mutBool.setValue(null);
-    }
-
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         final MutableBoolean mutBoolA = new MutableBoolean(false);
         final MutableBoolean mutBoolB = new MutableBoolean(false);
         final MutableBoolean mutBoolC = new MutableBoolean(true);
 
         assertEquals(mutBoolA.hashCode(), mutBoolA.hashCode());
         assertEquals(mutBoolA.hashCode(), mutBoolB.hashCode());
-        assertFalse(mutBoolA.hashCode() == mutBoolC.hashCode());
+        assertNotEquals(mutBoolA.hashCode(), mutBoolC.hashCode());
         assertEquals(mutBoolA.hashCode(), Boolean.FALSE.hashCode());
         assertEquals(mutBoolC.hashCode(), Boolean.TRUE.hashCode());
     }
 
     @Test
-    public void testToString() {
+    void testSetNull() {
+        final MutableBoolean mutBool = new MutableBoolean(false);
+        assertNullPointerException(() -> mutBool.setValue(null));
+    }
+
+    @Test
+    void testToString() {
         assertEquals(Boolean.FALSE.toString(), new MutableBoolean(false).toString());
         assertEquals(Boolean.TRUE.toString(), new MutableBoolean(true).toString());
     }

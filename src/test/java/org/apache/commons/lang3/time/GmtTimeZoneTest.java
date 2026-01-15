@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,53 +16,21 @@
  */
 package org.apache.commons.lang3.time;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.apache.commons.lang3.LangAssertions.assertIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Test;
+import org.apache.commons.lang3.AbstractLangTest;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for GmtTimeZone
  */
-public class GmtTimeZoneTest {
-
-    @Test(expected = IllegalArgumentException.class)
-    public void hoursOutOfRange() {
-        new GmtTimeZone(false, 24, 0);
-    }
+class GmtTimeZoneTest extends AbstractLangTest {
 
     @Test
-    public void hoursInRange() {
-        assertEquals(23 * 60 * 60 * 1000, new GmtTimeZone(false, 23, 0).getRawOffset());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void minutesOutOfRange() {
-        new GmtTimeZone(false, 0, 60);
-    }
-
-    @Test
-    public void minutesInRange() {
-        assertEquals(59 * 60 * 1000, new GmtTimeZone(false, 0, 59).getRawOffset());
-    }
-
-    @Test
-    public void getOffset() {
-        assertEquals(0, new GmtTimeZone(false, 0, 0).getOffset(234304));
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void setRawOffset() {
-        new GmtTimeZone(false, 0, 0).setRawOffset(0);
-    }
-
-    @Test
-    public void getRawOffset() {
-        assertEquals(0, new GmtTimeZone(false, 0, 0).getRawOffset());
-    }
-
-    @Test
-    public void getID() {
+    void testGetID() {
         assertEquals("GMT+00:00", new GmtTimeZone(false, 0, 0).getID());
         assertEquals("GMT+01:02", new GmtTimeZone(false, 1, 2).getID());
         assertEquals("GMT+11:22", new GmtTimeZone(false, 11, 22).getID());
@@ -71,24 +39,55 @@ public class GmtTimeZoneTest {
     }
 
     @Test
-    public void useDaylightTime() {
+    void testGetOffset() {
+        assertEquals(0, new GmtTimeZone(false, 0, 0).getOffset(234304));
+        assertEquals(-(6 * 60 + 30) * 60 * 1000,
+                new GmtTimeZone(true, 6, 30).getOffset(1, 1, 1, 1, 1, 1));
+    }
+
+    @Test
+    void testGetRawOffset() {
+        assertEquals(0, new GmtTimeZone(false, 0, 0).getRawOffset());
+    }
+
+    @Test
+    void testHoursInRange() {
+        assertEquals(23 * 60 * 60 * 1000, new GmtTimeZone(false, 23, 0).getRawOffset());
+    }
+
+    @Test
+    void testHoursOutOfRange() {
+        assertIllegalArgumentException(() -> new GmtTimeZone(false, 24, 0));
+    }
+
+    @Test
+    void testInDaylightTime() {
         assertFalse(new GmtTimeZone(false, 0, 0).useDaylightTime());
     }
 
     @Test
-    public void inDaylightTime() {
-        assertFalse(new GmtTimeZone(false, 0, 0).useDaylightTime());
+    void testMinutesInRange() {
+        assertEquals(59 * 60 * 1000, new GmtTimeZone(false, 0, 59).getRawOffset());
     }
 
     @Test
-    public void testToString() {
+    void testMinutesOutOfRange() {
+        assertIllegalArgumentException(() -> new GmtTimeZone(false, 0, 60));
+    }
+
+    @Test
+    void testSetRawOffset() {
+        assertThrows(UnsupportedOperationException.class, () -> new GmtTimeZone(false, 0, 0).setRawOffset(0));
+    }
+
+    @Test
+    void testToString() {
         assertEquals("[GmtTimeZone id=\"GMT-12:00\",offset=-43200000]",
             new GmtTimeZone(true, 12, 0).toString());
     }
 
     @Test
-    public void testGetOffset() {
-        assertEquals(-(6 * 60 + 30) * 60 * 1000,
-            new GmtTimeZone(true, 6, 30).getOffset(1, 1, 1, 1, 1, 1));
+    void testUseDaylightTime() {
+        assertFalse(new GmtTimeZone(false, 0, 0).useDaylightTime());
     }
 }

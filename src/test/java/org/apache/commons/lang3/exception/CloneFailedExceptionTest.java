@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,61 +16,68 @@
  */
 package org.apache.commons.lang3.exception;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import org.junit.jupiter.api.Test;
 
 /**
  * JUnit tests for {@link CloneFailedExceptionTest}.
  */
-public class CloneFailedExceptionTest extends AbstractExceptionTest {
+class CloneFailedExceptionTest extends AbstractExceptionTest {
 
-    @Test(expected = CloneFailedException.class)
-    public void testThrowingInformativeException() throws Exception {
-        throw new CloneFailedException(EXCEPTION_MESSAGE, generateCause());
-    }
-
-    @Test(expected = CloneFailedException.class)
-    public void testThrowingExceptionWithMessage() throws Exception {
-        throw new CloneFailedException(EXCEPTION_MESSAGE);
-    }
-
-    @Test(expected = CloneFailedException.class)
-    public void testThrowingExceptionWithCause() throws Exception {
-        throw new CloneFailedException(generateCause());
+    @Test
+    void testThrowingExceptionWithCause() {
+        assertThrows(CloneFailedException.class, () -> {
+            throw new CloneFailedException(generateCause());
+        });
     }
 
     @Test
-    public void testWithCauseAndMessage() throws Exception {
+    void testThrowingExceptionWithMessage() {
+        assertThrows(CloneFailedException.class, () -> {
+            throw new CloneFailedException(EXCEPTION_MESSAGE);
+        });
+    }
+
+    @Test
+    void testThrowingInformativeException() {
+        assertThrows(CloneFailedException.class, () -> {
+            throw new CloneFailedException(EXCEPTION_MESSAGE, generateCause());
+        });
+    }
+
+    @Test
+    void testWithCauseAndMessage() {
         final Exception exception = new CloneFailedException(EXCEPTION_MESSAGE, generateCause());
         assertNotNull(exception);
-        assertEquals(WRONG_EXCEPTION_MESSAGE, EXCEPTION_MESSAGE, exception.getMessage());
+        assertEquals(EXCEPTION_MESSAGE, exception.getMessage(), WRONG_EXCEPTION_MESSAGE);
 
         final Throwable cause = exception.getCause();
         assertNotNull(cause);
-        assertEquals(WRONG_CAUSE_MESSAGE, CAUSE_MESSAGE, cause.getMessage());
+        assertEquals(CAUSE_MESSAGE, cause.getMessage(), WRONG_CAUSE_MESSAGE);
     }
 
     @Test
-    public void testWithoutCause() throws Exception {
+    void testWithoutCause() {
         final Exception exception = new CloneFailedException(EXCEPTION_MESSAGE);
         assertNotNull(exception);
-        assertEquals(WRONG_EXCEPTION_MESSAGE, EXCEPTION_MESSAGE, exception.getMessage());
+        assertEquals(EXCEPTION_MESSAGE, exception.getMessage(), WRONG_EXCEPTION_MESSAGE);
 
         final Throwable cause = exception.getCause();
         assertNull(cause);
     }
 
     @Test
-    public void testWithoutMessage() throws Exception {
+    void testWithoutMessage() {
         final Exception exception = new CloneFailedException(generateCause());
         assertNotNull(exception);
         assertNotNull(exception.getMessage());
 
         final Throwable cause = exception.getCause();
         assertNotNull(cause);
-        assertEquals(WRONG_CAUSE_MESSAGE, CAUSE_MESSAGE, cause.getMessage());
+        assertEquals(CAUSE_MESSAGE, cause.getMessage(), WRONG_CAUSE_MESSAGE);
     }
 }

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,5 +23,21 @@ public class StringParameterizedChild extends GenericParent<String> {
     @Override
     public void consume(final String t) {
         super.consume(t);
+    }
+
+    @Override
+    public void parentNotAnnotatedMethod(final String t) {
+    }
+
+    @Override
+    public void parentProtectedAnnotatedMethod(final String t) {
+    }
+
+    @Annotated
+    private void privateAnnotatedMethod(final String t) {
+    }
+
+    @Annotated
+    public void publicAnnotatedMethod(final String t) {
     }
 }

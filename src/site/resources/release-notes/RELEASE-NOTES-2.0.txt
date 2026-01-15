@@ -5,7 +5,7 @@ The ASF licenses this file to You under the Apache License, Version 2.0
 (the "License"); you may not use this file except in compliance with
 the License.  You may obtain a copy of the License at
 
-http://www.apache.org/licenses/LICENSE-2.0
+https://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -147,7 +147,7 @@ ID Sev Pri Plt Owner State Result Summary
 16284  MethodUtils: Removed unused code/unused local vars.  
 16341  No Javadoc for NestableDelegate  
 16622  Removed compile warning in FastDateFormat  
-16669  JavaDoc Errata  
+16669  Javadoc Errata  
 16676  StackOverflow due to ToStringBuilder  
 16689  ExceptionUtils new methods.  
 16690  Specify initial size for Enum's HashMap.  
@@ -156,7 +156,7 @@ ID Sev Pri Plt Owner State Result Summary
 17654  EnumUtils nit: The import java.io.Serializable is never used  
 17882  Add join(..., char c) to StringUtils (and some performance f  
 18077  StringUtils.chomp does not match Perl  
-18723  RandomStringUtils infloops with length < 1  
+18723  RandomStringUtils infinite loop with length < 1
 18836  test.lang fails if compiled with non iso-8859-1 locales  
 18948  Resurrect the WordWrapUtils from commons-sandbox/utils  
 19296  [Lang] What to do with FastDateFormat unused private constru  

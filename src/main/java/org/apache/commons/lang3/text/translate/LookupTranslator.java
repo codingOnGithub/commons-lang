@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,9 +25,9 @@ import java.util.HashSet;
  * Translates a value using a lookup table.
  *
  * @since 3.0
- * @deprecated as of 3.6, use commons-text
+ * @deprecated As of <a href="https://commons.apache.org/proper/commons-lang/changes-report.html#a3.6">3.6</a>, use Apache Commons Text
  * <a href="https://commons.apache.org/proper/commons-text/javadocs/api-release/org/apache/commons/text/translate/LookupTranslator.html">
- * LookupTranslator</a> instead
+ * LookupTranslator</a>.
  */
 @Deprecated
 public class LookupTranslator extends CharSequenceTranslator {
@@ -49,23 +49,23 @@ public class LookupTranslator extends CharSequenceTranslator {
     public LookupTranslator(final CharSequence[]... lookup) {
         lookupMap = new HashMap<>();
         prefixSet = new HashSet<>();
-        int _shortest = Integer.MAX_VALUE;
-        int _longest = 0;
+        int tmpShortest = Integer.MAX_VALUE;
+        int tmpLongest = 0;
         if (lookup != null) {
             for (final CharSequence[] seq : lookup) {
                 this.lookupMap.put(seq[0].toString(), seq[1].toString());
                 this.prefixSet.add(seq[0].charAt(0));
                 final int sz = seq[0].length();
-                if (sz < _shortest) {
-                    _shortest = sz;
+                if (sz < tmpShortest) {
+                    tmpShortest = sz;
                 }
-                if (sz > _longest) {
-                    _longest = sz;
+                if (sz > tmpLongest) {
+                    tmpLongest = sz;
                 }
             }
         }
-        shortest = _shortest;
-        longest = _longest;
+        this.shortest = tmpShortest;
+        this.longest = tmpLongest;
     }
 
     /**

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,6 +33,7 @@ public class FastTimeZone {
 
     /**
      * Gets the GMT TimeZone.
+     *
      * @return A TimeZone with a raw offset of zero.
      */
     public static TimeZone getGmtTimeZone() {
@@ -70,14 +71,14 @@ public class FastTimeZone {
      * i.e. <em>[GMT] (+|-) Hours [[:] Minutes]</em>
      *
      * @param id A GMT custom id (or Olson id
-     * @return A timezone
+     * @return A time zone
      */
     public static TimeZone getTimeZone(final String id) {
         final TimeZone tz = getGmtTimeZone(id);
         if (tz != null) {
             return tz;
         }
-        return TimeZone.getTimeZone(id);
+        return TimeZones.getTimeZone(id);
     }
 
     private static int parseInt(final String group) {

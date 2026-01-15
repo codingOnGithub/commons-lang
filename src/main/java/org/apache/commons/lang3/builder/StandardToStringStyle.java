@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,8 +16,12 @@
  */
 package org.apache.commons.lang3.builder;
 
+import java.lang.reflect.Array;
+import java.util.Collection;
+import java.util.Map;
+
 /**
- * <p>Works with {@link ToStringBuilder} to create a <code>toString</code>.</p>
+ * Works with {@link ToStringBuilder} to create a {@code toString}.
  *
  * <p>This class is intended to be used as a singleton.
  * There is no need to instantiate a new style each time.
@@ -37,523 +41,481 @@ public class StandardToStringStyle extends ToStringStyle {
     private static final long serialVersionUID = 1L;
 
     /**
-     * <p>Constructor.</p>
+     * Constructs a new instance.
      */
     public StandardToStringStyle() {
-        super();
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets whether to use the class name.</p>
-     *
-     * @return the current useClassName flag
-     */
-    @Override
-    public boolean isUseClassName() { // NOPMD as this is implementing the abstract class
-        return super.isUseClassName();
     }
 
     /**
-     * <p>Sets whether to use the class name.</p>
-     *
-     * @param useClassName  the new useClassName flag
-     */
-    @Override
-    public void setUseClassName(final boolean useClassName) { // NOPMD as this is implementing the abstract class
-        super.setUseClassName(useClassName);
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets whether to output short or long class names.</p>
-     *
-     * @return the current useShortClassName flag
-     * @since 2.0
-     */
-    @Override
-    public boolean isUseShortClassName() { // NOPMD as this is implementing the abstract class
-        return super.isUseShortClassName();
-    }
-
-    /**
-     * <p>Sets whether to output short or long class names.</p>
-     *
-     * @param useShortClassName  the new useShortClassName flag
-     * @since 2.0
-     */
-    @Override
-    public void setUseShortClassName(final boolean useShortClassName) { // NOPMD as this is implementing the abstract class
-        super.setUseShortClassName(useShortClassName);
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets whether to use the identity hash code.</p>
-     * @return the current useIdentityHashCode flag
-     */
-    @Override
-    public boolean isUseIdentityHashCode() { // NOPMD as this is implementing the abstract class
-        return super.isUseIdentityHashCode();
-    }
-
-    /**
-     * <p>Sets whether to use the identity hash code.</p>
-     *
-     * @param useIdentityHashCode  the new useIdentityHashCode flag
-     */
-    @Override
-    public void setUseIdentityHashCode(final boolean useIdentityHashCode) { // NOPMD as this is implementing the abstract class
-        super.setUseIdentityHashCode(useIdentityHashCode);
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets whether to use the field names passed in.</p>
-     *
-     * @return the current useFieldNames flag
-     */
-    @Override
-    public boolean isUseFieldNames() { // NOPMD as this is implementing the abstract class
-        return super.isUseFieldNames();
-    }
-
-    /**
-     * <p>Sets whether to use the field names passed in.</p>
-     *
-     * @param useFieldNames  the new useFieldNames flag
-     */
-    @Override
-    public void setUseFieldNames(final boolean useFieldNames) { // NOPMD as this is implementing the abstract class
-        super.setUseFieldNames(useFieldNames);
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets whether to use full detail when the caller doesn't
-     * specify.</p>
-     *
-     * @return the current defaultFullDetail flag
-     */
-    @Override
-    public boolean isDefaultFullDetail() { // NOPMD as this is implementing the abstract class
-        return super.isDefaultFullDetail();
-    }
-
-    /**
-     * <p>Sets whether to use full detail when the caller doesn't
-     * specify.</p>
-     *
-     * @param defaultFullDetail  the new defaultFullDetail flag
-     */
-    @Override
-    public void setDefaultFullDetail(final boolean defaultFullDetail) { // NOPMD as this is implementing the abstract class
-        super.setDefaultFullDetail(defaultFullDetail);
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets whether to output array content detail.</p>
-     *
-     * @return the current array content detail setting
-     */
-    @Override
-    public boolean isArrayContentDetail() { // NOPMD as this is implementing the abstract class
-        return super.isArrayContentDetail();
-    }
-
-    /**
-     * <p>Sets whether to output array content detail.</p>
-     *
-     * @param arrayContentDetail  the new arrayContentDetail flag
-     */
-    @Override
-    public void setArrayContentDetail(final boolean arrayContentDetail) { // NOPMD as this is implementing the abstract class
-        super.setArrayContentDetail(arrayContentDetail);
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets the array start text.</p>
-     *
-     * @return the current array start text
-     */
-    @Override
-    public String getArrayStart() { // NOPMD as this is implementing the abstract class
-        return super.getArrayStart();
-    }
-
-    /**
-     * <p>Sets the array start text.</p>
-     *
-     * <p><code>null</code> is accepted, but will be converted
-     * to an empty String.</p>
-     *
-     * @param arrayStart  the new array start text
-     */
-    @Override
-    public void setArrayStart(final String arrayStart) { // NOPMD as this is implementing the abstract class
-        super.setArrayStart(arrayStart);
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets the array end text.</p>
+     * Gets the array end text.
      *
      * @return the current array end text
      */
     @Override
-    public String getArrayEnd() { // NOPMD as this is implementing the abstract class
+    public String getArrayEnd() {
         return super.getArrayEnd();
     }
 
     /**
-     * <p>Sets the array end text.</p>
-     *
-     * <p><code>null</code> is accepted, but will be converted
-     * to an empty String.</p>
-     *
-     * @param arrayEnd  the new array end text
-     */
-    @Override
-    public void setArrayEnd(final String arrayEnd) { // NOPMD as this is implementing the abstract class
-        super.setArrayEnd(arrayEnd);
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets the array separator text.</p>
+     * Gets the array separator text.
      *
      * @return the current array separator text
      */
     @Override
-    public String getArraySeparator() { // NOPMD as this is implementing the abstract class
+    public String getArraySeparator() {
         return super.getArraySeparator();
     }
 
     /**
-     * <p>Sets the array separator text.</p>
+     * Gets the array start text.
      *
-     * <p><code>null</code> is accepted, but will be converted
-     * to an empty String.</p>
-     *
-     * @param arraySeparator  the new array separator text
+     * @return the current array start text
      */
     @Override
-    public void setArraySeparator(final String arraySeparator) { // NOPMD as this is implementing the abstract class
-        super.setArraySeparator(arraySeparator);
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets the content start text.</p>
-     *
-     * @return the current content start text
-     */
-    @Override
-    public String getContentStart() { // NOPMD as this is implementing the abstract class
-        return super.getContentStart();
+    public String getArrayStart() {
+        return super.getArrayStart();
     }
 
     /**
-     * <p>Sets the content start text.</p>
-     *
-     * <p><code>null</code> is accepted, but will be converted
-     * to an empty String.</p>
-     *
-     * @param contentStart  the new content start text
-     */
-    @Override
-    public void setContentStart(final String contentStart) { // NOPMD as this is implementing the abstract class
-        super.setContentStart(contentStart);
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets the content end text.</p>
+     * Gets the content end text.
      *
      * @return the current content end text
      */
     @Override
-    public String getContentEnd() { // NOPMD as this is implementing the abstract class
+    public String getContentEnd() {
         return super.getContentEnd();
     }
 
     /**
-     * <p>Sets the content end text.</p>
+     * Gets the content start text.
      *
-     * <p><code>null</code> is accepted, but will be converted
-     * to an empty String.</p>
-     *
-     * @param contentEnd  the new content end text
+     * @return the current content start text
      */
     @Override
-    public void setContentEnd(final String contentEnd) { // NOPMD as this is implementing the abstract class
-        super.setContentEnd(contentEnd);
+    public String getContentStart() {
+        return super.getContentStart();
     }
 
-    //---------------------------------------------------------------------
-
     /**
-     * <p>Gets the field name value separator text.</p>
+     * Gets the field name value separator text.
      *
      * @return the current field name value separator text
      */
     @Override
-    public String getFieldNameValueSeparator() { // NOPMD as this is implementing the abstract class
+    public String getFieldNameValueSeparator() {
         return super.getFieldNameValueSeparator();
     }
 
     /**
-     * <p>Sets the field name value separator text.</p>
-     *
-     * <p><code>null</code> is accepted, but will be converted
-     * to an empty String.</p>
-     *
-     * @param fieldNameValueSeparator  the new field name value separator text
-     */
-    @Override
-    public void setFieldNameValueSeparator(final String fieldNameValueSeparator) { // NOPMD as this is implementing the abstract class
-        super.setFieldNameValueSeparator(fieldNameValueSeparator);
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets the field separator text.</p>
+     * Gets the field separator text.
      *
      * @return the current field separator text
      */
     @Override
-    public String getFieldSeparator() { // NOPMD as this is implementing the abstract class
+    public String getFieldSeparator() {
         return super.getFieldSeparator();
     }
 
     /**
-     * <p>Sets the field separator text.</p>
+     * Gets the text to output when {@code null} found.
      *
-     * <p><code>null</code> is accepted, but will be converted
-     * to an empty String.</p>
-     *
-     * @param fieldSeparator  the new field separator text
+     * @return the current text to output when {@code null} found
      */
     @Override
-    public void setFieldSeparator(final String fieldSeparator) { // NOPMD as this is implementing the abstract class
-        super.setFieldSeparator(fieldSeparator);
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets whether the field separator should be added at the start
-     * of each buffer.</p>
-     *
-     * @return the fieldSeparatorAtStart flag
-     * @since 2.0
-     */
-    @Override
-    public boolean isFieldSeparatorAtStart() { // NOPMD as this is implementing the abstract class
-        return super.isFieldSeparatorAtStart();
-    }
-
-    /**
-     * <p>Sets whether the field separator should be added at the start
-     * of each buffer.</p>
-     *
-     * @param fieldSeparatorAtStart  the fieldSeparatorAtStart flag
-     * @since 2.0
-     */
-    @Override
-    public void setFieldSeparatorAtStart(final boolean fieldSeparatorAtStart) { // NOPMD as this is implementing the abstract class
-        super.setFieldSeparatorAtStart(fieldSeparatorAtStart);
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets whether the field separator should be added at the end
-     * of each buffer.</p>
-     *
-     * @return fieldSeparatorAtEnd flag
-     * @since 2.0
-     */
-    @Override
-    public boolean isFieldSeparatorAtEnd() { // NOPMD as this is implementing the abstract class
-        return super.isFieldSeparatorAtEnd();
-    }
-
-    /**
-     * <p>Sets whether the field separator should be added at the end
-     * of each buffer.</p>
-     *
-     * @param fieldSeparatorAtEnd  the fieldSeparatorAtEnd flag
-     * @since 2.0
-     */
-    @Override
-    public void setFieldSeparatorAtEnd(final boolean fieldSeparatorAtEnd) { // NOPMD as this is implementing the abstract class
-        super.setFieldSeparatorAtEnd(fieldSeparatorAtEnd);
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets the text to output when <code>null</code> found.</p>
-     *
-     * @return the current text to output when <code>null</code> found
-     */
-    @Override
-    public String getNullText() { // NOPMD as this is implementing the abstract class
+    public String getNullText() {
         return super.getNullText();
     }
 
     /**
-     * <p>Sets the text to output when <code>null</code> found.</p>
-     *
-     * <p><code>null</code> is accepted, but will be converted
-     * to an empty String.</p>
-     *
-     * @param nullText  the new text to output when <code>null</code> found
-     */
-    @Override
-    public void setNullText(final String nullText) { // NOPMD as this is implementing the abstract class
-        super.setNullText(nullText);
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets the text to output when a <code>Collection</code>,
-     * <code>Map</code> or <code>Array</code> size is output.</p>
-     *
-     * <p>This is output before the size value.</p>
-     *
-     * @return the current start of size text
-     */
-    @Override
-    public String getSizeStartText() { // NOPMD as this is implementing the abstract class
-        return super.getSizeStartText();
-    }
-
-    /**
-     * <p>Sets the start text to output when a <code>Collection</code>,
-     * <code>Map</code> or <code>Array</code> size is output.</p>
-     *
-     * <p>This is output before the size value.</p>
-     *
-     * <p><code>null</code> is accepted, but will be converted to
-     * an empty String.</p>
-     *
-     * @param sizeStartText  the new start of size text
-     */
-    @Override
-    public void setSizeStartText(final String sizeStartText) { // NOPMD as this is implementing the abstract class
-        super.setSizeStartText(sizeStartText);
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets the end text to output when a <code>Collection</code>,
-     * <code>Map</code> or <code>Array</code> size is output.</p>
+     * Gets the end text to output when a {@link Collection},
+     * {@link Map} or {@link Array} size is output.
      *
      * <p>This is output after the size value.</p>
      *
      * @return the current end of size text
      */
     @Override
-    public String getSizeEndText() { // NOPMD as this is implementing the abstract class
+    public String getSizeEndText() {
         return super.getSizeEndText();
     }
 
     /**
-     * <p>Sets the end text to output when a <code>Collection</code>,
-     * <code>Map</code> or <code>Array</code> size is output.</p>
-     *
-     * <p>This is output after the size value.</p>
-     *
-     * <p><code>null</code> is accepted, but will be converted
-     * to an empty String.</p>
-     *
-     * @param sizeEndText  the new end of size text
-     */
-    @Override
-    public void setSizeEndText(final String sizeEndText) { // NOPMD as this is implementing the abstract class
-        super.setSizeEndText(sizeEndText);
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * <p>Gets the start text to output when an <code>Object</code> is
-     * output in summary mode.</p>
-     *
-     * <P>This is output before the size value.</p>
-     *
-     * @return the current start of summary text
-     */
-    @Override
-    public String getSummaryObjectStartText() { // NOPMD as this is implementing the abstract class
-        return super.getSummaryObjectStartText();
-    }
-
-    /**
-     * <p>Sets the start text to output when an <code>Object</code> is
-     * output in summary mode.</p>
+     * Gets the text to output when a {@link Collection},
+     * {@link Map} or {@link Array} size is output.
      *
      * <p>This is output before the size value.</p>
      *
-     * <p><code>null</code> is accepted, but will be converted to
-     * an empty String.</p>
-     *
-     * @param summaryObjectStartText  the new start of summary text
+     * @return the current start of size text
      */
     @Override
-    public void setSummaryObjectStartText(final String summaryObjectStartText) { // NOPMD as this is implementing the abstract class
-        super.setSummaryObjectStartText(summaryObjectStartText);
+    public String getSizeStartText() {
+        return super.getSizeStartText();
     }
 
-    //---------------------------------------------------------------------
-
     /**
-     * <p>Gets the end text to output when an <code>Object</code> is
-     * output in summary mode.</p>
+     * Gets the end text to output when an {@link Object} is
+     * output in summary mode.
      *
      * <p>This is output after the size value.</p>
      *
      * @return the current end of summary text
      */
     @Override
-    public String getSummaryObjectEndText() { // NOPMD as this is implementing the abstract class
+    public String getSummaryObjectEndText() {
         return super.getSummaryObjectEndText();
     }
 
     /**
-     * <p>Sets the end text to output when an <code>Object</code> is
-     * output in summary mode.</p>
+     * Gets the start text to output when an {@link Object} is
+     * output in summary mode.
+     *
+     * <p>This is output before the size value.</p>
+     *
+     * @return the current start of summary text
+     */
+    @Override
+    public String getSummaryObjectStartText() {
+        return super.getSummaryObjectStartText();
+    }
+
+    /**
+     * Gets whether to output array content detail.
+     *
+     * @return the current array content detail setting
+     */
+    @Override
+    public boolean isArrayContentDetail() {
+        return super.isArrayContentDetail();
+    }
+
+    /**
+     * Gets whether to use full detail when the caller doesn't
+     * specify.
+     *
+     * @return the current defaultFullDetail flag
+     */
+    @Override
+    public boolean isDefaultFullDetail() {
+        return super.isDefaultFullDetail();
+    }
+
+    /**
+     * Gets whether the field separator should be added at the end
+     * of each buffer.
+     *
+     * @return fieldSeparatorAtEnd flag
+     * @since 2.0
+     */
+    @Override
+    public boolean isFieldSeparatorAtEnd() {
+        return super.isFieldSeparatorAtEnd();
+    }
+
+    /**
+     * Gets whether the field separator should be added at the start
+     * of each buffer.
+     *
+     * @return the fieldSeparatorAtStart flag
+     * @since 2.0
+     */
+    @Override
+    public boolean isFieldSeparatorAtStart() {
+        return super.isFieldSeparatorAtStart();
+    }
+
+    /**
+     * Gets whether to use the class name.
+     *
+     * @return the current useClassName flag
+     */
+    @Override
+    public boolean isUseClassName() {
+        return super.isUseClassName();
+    }
+
+    /**
+     * Gets whether to use the field names passed in.
+     *
+     * @return the current useFieldNames flag
+     */
+    @Override
+    public boolean isUseFieldNames() {
+        return super.isUseFieldNames();
+    }
+
+    /**
+     * Gets whether to use the identity hash code.
+     *
+     * @return the current useIdentityHashCode flag
+     */
+    @Override
+    public boolean isUseIdentityHashCode() {
+        return super.isUseIdentityHashCode();
+    }
+
+    /**
+     * Gets whether to output short or long class names.
+     *
+     * @return the current useShortClassName flag
+     * @since 2.0
+     */
+    @Override
+    public boolean isUseShortClassName() {
+        return super.isUseShortClassName();
+    }
+
+    /**
+     * Sets whether to output array content detail.
+     *
+     * @param arrayContentDetail  the new arrayContentDetail flag
+     */
+    @Override
+    public void setArrayContentDetail(final boolean arrayContentDetail) {
+        super.setArrayContentDetail(arrayContentDetail);
+    }
+
+    /**
+     * Sets the array end text.
+     *
+     * <p>{@code null} is accepted, but will be converted
+     * to an empty String.</p>
+     *
+     * @param arrayEnd  the new array end text
+     */
+    @Override
+    public void setArrayEnd(final String arrayEnd) {
+        super.setArrayEnd(arrayEnd);
+    }
+
+    /**
+     * Sets the array separator text.
+     *
+     * <p>{@code null} is accepted, but will be converted
+     * to an empty String.</p>
+     *
+     * @param arraySeparator  the new array separator text
+     */
+    @Override
+    public void setArraySeparator(final String arraySeparator) {
+        super.setArraySeparator(arraySeparator);
+    }
+
+    /**
+     * Sets the array start text.
+     *
+     * <p>{@code null} is accepted, but will be converted
+     * to an empty String.</p>
+     *
+     * @param arrayStart  the new array start text
+     */
+    @Override
+    public void setArrayStart(final String arrayStart) {
+        super.setArrayStart(arrayStart);
+    }
+
+    /**
+     * Sets the content end text.
+     *
+     * <p>{@code null} is accepted, but will be converted
+     * to an empty String.</p>
+     *
+     * @param contentEnd  the new content end text
+     */
+    @Override
+    public void setContentEnd(final String contentEnd) {
+        super.setContentEnd(contentEnd);
+    }
+
+    /**
+     * Sets the content start text.
+     *
+     * <p>{@code null} is accepted, but will be converted
+     * to an empty String.</p>
+     *
+     * @param contentStart  the new content start text
+     */
+    @Override
+    public void setContentStart(final String contentStart) {
+        super.setContentStart(contentStart);
+    }
+
+    /**
+     * Sets whether to use full detail when the caller doesn't
+     * specify.
+     *
+     * @param defaultFullDetail  the new defaultFullDetail flag
+     */
+    @Override
+    public void setDefaultFullDetail(final boolean defaultFullDetail) {
+        super.setDefaultFullDetail(defaultFullDetail);
+    }
+
+    /**
+     * Sets the field name value separator text.
+     *
+     * <p>{@code null} is accepted, but will be converted
+     * to an empty String.</p>
+     *
+     * @param fieldNameValueSeparator  the new field name value separator text
+     */
+    @Override
+    public void setFieldNameValueSeparator(final String fieldNameValueSeparator) {
+        super.setFieldNameValueSeparator(fieldNameValueSeparator);
+    }
+
+    /**
+     * Sets the field separator text.
+     *
+     * <p>{@code null} is accepted, but will be converted
+     * to an empty String.</p>
+     *
+     * @param fieldSeparator  the new field separator text
+     */
+    @Override
+    public void setFieldSeparator(final String fieldSeparator) {
+        super.setFieldSeparator(fieldSeparator);
+    }
+
+    /**
+     * Sets whether the field separator should be added at the end
+     * of each buffer.
+     *
+     * @param fieldSeparatorAtEnd  the fieldSeparatorAtEnd flag
+     * @since 2.0
+     */
+    @Override
+    public void setFieldSeparatorAtEnd(final boolean fieldSeparatorAtEnd) {
+        super.setFieldSeparatorAtEnd(fieldSeparatorAtEnd);
+    }
+
+    /**
+     * Sets whether the field separator should be added at the start
+     * of each buffer.
+     *
+     * @param fieldSeparatorAtStart  the fieldSeparatorAtStart flag
+     * @since 2.0
+     */
+    @Override
+    public void setFieldSeparatorAtStart(final boolean fieldSeparatorAtStart) {
+        super.setFieldSeparatorAtStart(fieldSeparatorAtStart);
+    }
+
+    /**
+     * Sets the text to output when {@code null} found.
+     *
+     * <p>{@code null} is accepted, but will be converted
+     * to an empty String.</p>
+     *
+     * @param nullText  the new text to output when {@code null} found
+     */
+    @Override
+    public void setNullText(final String nullText) {
+        super.setNullText(nullText);
+    }
+
+    /**
+     * Sets the end text to output when a {@link Collection},
+     * {@link Map} or {@link Array} size is output.
      *
      * <p>This is output after the size value.</p>
      *
-     * <p><code>null</code> is accepted, but will be converted to
+     * <p>{@code null} is accepted, but will be converted
+     * to an empty String.</p>
+     *
+     * @param sizeEndText  the new end of size text
+     */
+    @Override
+    public void setSizeEndText(final String sizeEndText) {
+        super.setSizeEndText(sizeEndText);
+    }
+
+    /**
+     * Sets the start text to output when a {@link Collection},
+     * {@link Map} or {@link Array} size is output.
+     *
+     * <p>This is output before the size value.</p>
+     *
+     * <p>{@code null} is accepted, but will be converted to
+     * an empty String.</p>
+     *
+     * @param sizeStartText  the new start of size text
+     */
+    @Override
+    public void setSizeStartText(final String sizeStartText) {
+        super.setSizeStartText(sizeStartText);
+    }
+
+    /**
+     * Sets the end text to output when an {@link Object} is
+     * output in summary mode.
+     *
+     * <p>This is output after the size value.</p>
+     *
+     * <p>{@code null} is accepted, but will be converted to
      * an empty String.</p>
      *
      * @param summaryObjectEndText  the new end of summary text
      */
     @Override
-    public void setSummaryObjectEndText(final String summaryObjectEndText) { // NOPMD as this is implementing the abstract class
+    public void setSummaryObjectEndText(final String summaryObjectEndText) {
         super.setSummaryObjectEndText(summaryObjectEndText);
     }
 
-    //---------------------------------------------------------------------
+    /**
+     * Sets the start text to output when an {@link Object} is
+     * output in summary mode.
+     *
+     * <p>This is output before the size value.</p>
+     *
+     * <p>{@code null} is accepted, but will be converted to
+     * an empty String.</p>
+     *
+     * @param summaryObjectStartText  the new start of summary text
+     */
+    @Override
+    public void setSummaryObjectStartText(final String summaryObjectStartText) {
+        super.setSummaryObjectStartText(summaryObjectStartText);
+    }
+
+    /**
+     * Sets whether to use the class name.
+     *
+     * @param useClassName  the new useClassName flag
+     */
+    @Override
+    public void setUseClassName(final boolean useClassName) {
+        super.setUseClassName(useClassName);
+    }
+
+    /**
+     * Sets whether to use the field names passed in.
+     *
+     * @param useFieldNames  the new useFieldNames flag
+     */
+    @Override
+    public void setUseFieldNames(final boolean useFieldNames) {
+        super.setUseFieldNames(useFieldNames);
+    }
+
+    /**
+     * Sets whether to use the identity hash code.
+     *
+     * @param useIdentityHashCode  the new useIdentityHashCode flag
+     */
+    @Override
+    public void setUseIdentityHashCode(final boolean useIdentityHashCode) {
+        super.setUseIdentityHashCode(useIdentityHashCode);
+    }
+
+    /**
+     * Sets whether to output short or long class names.
+     *
+     * @param useShortClassName  the new useShortClassName flag
+     * @since 2.0
+     */
+    @Override
+    public void setUseShortClassName(final boolean useShortClassName) {
+        super.setUseShortClassName(useShortClassName);
+    }
 
 }

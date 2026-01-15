@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,47 +16,49 @@
  */
 package org.apache.commons.lang3;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.apache.commons.lang3.LangAssertions.assertIllegalArgumentException;
+import static org.apache.commons.lang3.LangAssertions.assertNullPointerException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests {@link org.apache.commons.lang3.CharUtils}.
+ * Tests {@link CharUtils}.
  */
-public class CharUtilsTest {
+class CharUtilsTest extends AbstractLangTest {
 
     private static final char CHAR_COPY = '\u00a9';
-    private static final Character CHARACTER_A = new Character('A');
-    private static final Character CHARACTER_B = new Character('B');
+    private static final Character CHARACTER_A = Character.valueOf('A');
+    private static final Character CHARACTER_B = Character.valueOf('B');
 
     @Test
-    public void testCompare() {
+    void testCompare() {
         assertTrue(CharUtils.compare('a', 'b') < 0);
-        assertTrue(CharUtils.compare('c', 'c') == 0);
+        assertEquals(0, CharUtils.compare('c', 'c'));
         assertTrue(CharUtils.compare('c', 'a') > 0);
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertNotNull(new CharUtils());
         final Constructor<?>[] cons = CharUtils.class.getDeclaredConstructors();
         assertEquals(1, cons.length);
         assertTrue(Modifier.isPublic(cons[0].getModifiers()));
-        assertTrue(Modifier.isPublic(BooleanUtils.class.getModifiers()));
-        assertFalse(Modifier.isFinal(BooleanUtils.class.getModifiers()));
+        assertTrue(Modifier.isPublic(CharUtils.class.getModifiers()));
+        assertFalse(Modifier.isFinal(CharUtils.class.getModifiers()));
     }
 
     @Test
-    public void testIsAscii_char() {
+    void testIsAscii_char() {
         assertTrue(CharUtils.isAscii('a'));
         assertTrue(CharUtils.isAscii('A'));
         assertTrue(CharUtils.isAscii('3'));
@@ -70,7 +72,7 @@ public class CharUtilsTest {
     }
 
     @Test
-    public void testIsAsciiAlpha_char() {
+    void testIsAsciiAlpha_char() {
         assertTrue(CharUtils.isAsciiAlpha('a'));
         assertTrue(CharUtils.isAsciiAlpha('A'));
         assertFalse(CharUtils.isAsciiAlpha('3'));
@@ -79,7 +81,7 @@ public class CharUtilsTest {
         assertFalse(CharUtils.isAsciiAlpha(CHAR_COPY));
 
         for (int i = 0; i < 196; i++) {
-            if ((i >= 'A' && i <= 'Z') || (i >= 'a' && i <= 'z')) {
+            if (i >= 'A' && i <= 'Z' || i >= 'a' && i <= 'z') {
                 assertTrue(CharUtils.isAsciiAlpha((char) i));
             } else {
                 assertFalse(CharUtils.isAsciiAlpha((char) i));
@@ -88,7 +90,7 @@ public class CharUtilsTest {
     }
 
     @Test
-    public void testIsAsciiAlphaLower_char() {
+    void testIsAsciiAlphaLower_char() {
         assertTrue(CharUtils.isAsciiAlphaLower('a'));
         assertFalse(CharUtils.isAsciiAlphaLower('A'));
         assertFalse(CharUtils.isAsciiAlphaLower('3'));
@@ -106,7 +108,7 @@ public class CharUtilsTest {
     }
 
     @Test
-    public void testIsAsciiAlphanumeric_char() {
+    void testIsAsciiAlphanumeric_char() {
         assertTrue(CharUtils.isAsciiAlphanumeric('a'));
         assertTrue(CharUtils.isAsciiAlphanumeric('A'));
         assertTrue(CharUtils.isAsciiAlphanumeric('3'));
@@ -115,7 +117,7 @@ public class CharUtilsTest {
         assertFalse(CharUtils.isAsciiAlphanumeric(CHAR_COPY));
 
         for (int i = 0; i < 196; i++) {
-            if ((i >= 'A' && i <= 'Z') || (i >= 'a' && i <= 'z') || (i >= '0' && i <= '9')) {
+            if (i >= 'A' && i <= 'Z' || i >= 'a' && i <= 'z' || i >= '0' && i <= '9') {
                 assertTrue(CharUtils.isAsciiAlphanumeric((char) i));
             } else {
                 assertFalse(CharUtils.isAsciiAlphanumeric((char) i));
@@ -124,7 +126,7 @@ public class CharUtilsTest {
     }
 
     @Test
-    public void testIsAsciiAlphaUpper_char() {
+    void testIsAsciiAlphaUpper_char() {
         assertFalse(CharUtils.isAsciiAlphaUpper('a'));
         assertTrue(CharUtils.isAsciiAlphaUpper('A'));
         assertFalse(CharUtils.isAsciiAlphaUpper('3'));
@@ -142,7 +144,7 @@ public class CharUtilsTest {
     }
 
     @Test
-    public void testIsAsciiControl_char() {
+    void testIsAsciiControl_char() {
         assertFalse(CharUtils.isAsciiControl('a'));
         assertFalse(CharUtils.isAsciiControl('A'));
         assertFalse(CharUtils.isAsciiControl('3'));
@@ -160,7 +162,7 @@ public class CharUtilsTest {
     }
 
     @Test
-    public void testIsAsciiNumeric_char() {
+    void testIsAsciiNumeric_char() {
         assertFalse(CharUtils.isAsciiNumeric('a'));
         assertFalse(CharUtils.isAsciiNumeric('A'));
         assertTrue(CharUtils.isAsciiNumeric('3'));
@@ -178,7 +180,7 @@ public class CharUtilsTest {
     }
 
     @Test
-    public void testIsAsciiPrintable_char() {
+    void testIsAsciiPrintable_char() {
         assertTrue(CharUtils.isAsciiPrintable('a'));
         assertTrue(CharUtils.isAsciiPrintable('A'));
         assertTrue(CharUtils.isAsciiPrintable('3'));
@@ -196,38 +198,29 @@ public class CharUtilsTest {
     }
 
     @Test
-    public void testToChar_Character() {
+    void testToChar_Character() {
         assertEquals('A', CharUtils.toChar(CHARACTER_A));
         assertEquals('B', CharUtils.toChar(CHARACTER_B));
-        try {
-            CharUtils.toChar((Character) null);
-            fail("An IllegalArgumentException should have been thrown");
-        } catch (final IllegalArgumentException ex) {}
+        assertNullPointerException(() -> CharUtils.toChar((Character) null));
     }
 
     @Test
-    public void testToChar_Character_char() {
+    void testToChar_Character_char() {
         assertEquals('A', CharUtils.toChar(CHARACTER_A, 'X'));
         assertEquals('B', CharUtils.toChar(CHARACTER_B, 'X'));
         assertEquals('X', CharUtils.toChar((Character) null, 'X'));
     }
 
     @Test
-    public void testToChar_String() {
+    void testToChar_String() {
         assertEquals('A', CharUtils.toChar("A"));
         assertEquals('B', CharUtils.toChar("BA"));
-        try {
-            CharUtils.toChar((String) null);
-            fail("An IllegalArgumentException should have been thrown");
-        } catch (final IllegalArgumentException ex) {}
-        try {
-            CharUtils.toChar("");
-            fail("An IllegalArgumentException should have been thrown");
-        } catch (final IllegalArgumentException ex) {}
+        assertNullPointerException(() -> CharUtils.toChar((String) null));
+        assertIllegalArgumentException(() -> CharUtils.toChar(""));
     }
 
     @Test
-    public void testToChar_String_char() {
+    void testToChar_String_char() {
         assertEquals('A', CharUtils.toChar("A", 'X'));
         assertEquals('B', CharUtils.toChar("BA", 'X'));
         assertEquals('X', CharUtils.toChar("", 'X'));
@@ -236,8 +229,8 @@ public class CharUtilsTest {
 
     @SuppressWarnings("deprecation") // intentional test of deprecated method
     @Test
-    public void testToCharacterObject_char() {
-        assertEquals(new Character('a'), CharUtils.toCharacterObject('a'));
+    void testToCharacterObject_char() {
+        assertEquals(Character.valueOf('a'), CharUtils.toCharacterObject('a'));
         assertSame(CharUtils.toCharacterObject('a'), CharUtils.toCharacterObject('a'));
 
         for (int i = 0; i < 128; i++) {
@@ -250,7 +243,7 @@ public class CharUtilsTest {
             final Character ch = CharUtils.toCharacterObject((char) i);
             final Character ch2 = CharUtils.toCharacterObject((char) i);
             assertEquals(ch, ch2);
-            assertTrue(ch != ch2);
+            assertNotSame(ch, ch2);
             assertEquals(i, ch.charValue());
             assertEquals(i, ch2.charValue());
         }
@@ -258,16 +251,16 @@ public class CharUtilsTest {
     }
 
     @Test
-    public void testToCharacterObject_String() {
+    void testToCharacterObject_String() {
         assertNull(CharUtils.toCharacterObject(null));
         assertNull(CharUtils.toCharacterObject(""));
-        assertEquals(new Character('a'), CharUtils.toCharacterObject("a"));
-        assertEquals(new Character('a'), CharUtils.toCharacterObject("abc"));
+        assertEquals(Character.valueOf('a'), CharUtils.toCharacterObject("a"));
+        assertEquals(Character.valueOf('a'), CharUtils.toCharacterObject("abc"));
         assertSame(CharUtils.toCharacterObject("a"), CharUtils.toCharacterObject("a"));
     }
 
     @Test
-    public void testToIntValue_char() {
+    void testToIntValue_char() {
         assertEquals(0, CharUtils.toIntValue('0'));
         assertEquals(1, CharUtils.toIntValue('1'));
         assertEquals(2, CharUtils.toIntValue('2'));
@@ -278,43 +271,34 @@ public class CharUtilsTest {
         assertEquals(7, CharUtils.toIntValue('7'));
         assertEquals(8, CharUtils.toIntValue('8'));
         assertEquals(9, CharUtils.toIntValue('9'));
-        try {
-            CharUtils.toIntValue('a');
-            fail("An IllegalArgumentException should have been thrown");
-        } catch (final IllegalArgumentException ex) {}
+        assertIllegalArgumentException(() -> CharUtils.toIntValue('a'));
     }
 
     @Test
-    public void testToIntValue_char_int() {
+    void testToIntValue_char_int() {
         assertEquals(0, CharUtils.toIntValue('0', -1));
         assertEquals(3, CharUtils.toIntValue('3', -1));
         assertEquals(-1, CharUtils.toIntValue('a', -1));
     }
 
     @Test
-    public void testToIntValue_Character() {
-        assertEquals(0, CharUtils.toIntValue(new Character('0')));
-        assertEquals(3, CharUtils.toIntValue(new Character('3')));
-        try {
-            CharUtils.toIntValue(null);
-            fail("An IllegalArgumentException should have been thrown");
-        } catch (final IllegalArgumentException ex) {}
-        try {
-            CharUtils.toIntValue(CHARACTER_A);
-            fail("An IllegalArgumentException should have been thrown");
-        } catch (final IllegalArgumentException ex) {}
+    void testToIntValue_Character() {
+        assertEquals(0, CharUtils.toIntValue(Character.valueOf('0')));
+        assertEquals(3, CharUtils.toIntValue(Character.valueOf('3')));
+        assertNullPointerException(() -> CharUtils.toIntValue(null));
+        assertIllegalArgumentException(() -> CharUtils.toIntValue(CHARACTER_A));
     }
 
     @Test
-    public void testToIntValue_Character_int() {
-        assertEquals(0, CharUtils.toIntValue(new Character('0'), -1));
-        assertEquals(3, CharUtils.toIntValue(new Character('3'), -1));
-        assertEquals(-1, CharUtils.toIntValue(new Character('A'), -1));
+    void testToIntValue_Character_int() {
+        assertEquals(0, CharUtils.toIntValue(Character.valueOf('0'), -1));
+        assertEquals(3, CharUtils.toIntValue(Character.valueOf('3'), -1));
+        assertEquals(-1, CharUtils.toIntValue(Character.valueOf('A'), -1));
         assertEquals(-1, CharUtils.toIntValue(null, -1));
     }
 
     @Test
-    public void testToString_char() {
+    void testToString_char() {
         assertEquals("a", CharUtils.toString('a'));
         assertSame(CharUtils.toString('a'), CharUtils.toString('a'));
 
@@ -329,7 +313,7 @@ public class CharUtilsTest {
             final String str = CharUtils.toString((char) i);
             final String str2 = CharUtils.toString((char) i);
             assertEquals(str, str2);
-            assertTrue(str != str2);
+            assertNotSame(str, str2);
             assertEquals(1, str.length());
             assertEquals(i, str.charAt(0));
             assertEquals(1, str2.length());
@@ -338,14 +322,14 @@ public class CharUtilsTest {
     }
 
     @Test
-    public void testToString_Character() {
+    void testToString_Character() {
         assertNull(CharUtils.toString(null));
         assertEquals("A", CharUtils.toString(CHARACTER_A));
         assertSame(CharUtils.toString(CHARACTER_A), CharUtils.toString(CHARACTER_A));
     }
 
     @Test
-    public void testToUnicodeEscaped_char() {
+    void testToUnicodeEscaped_char() {
         assertEquals("\\u0041", CharUtils.unicodeEscaped('A'));
         assertEquals("\\u004c", CharUtils.unicodeEscaped('L'));
 
@@ -360,7 +344,7 @@ public class CharUtilsTest {
     }
 
     @Test
-    public void testToUnicodeEscaped_Character() {
+    void testToUnicodeEscaped_Character() {
         assertNull(CharUtils.unicodeEscaped(null));
         assertEquals("\\u0041", CharUtils.unicodeEscaped(CHARACTER_A));
     }

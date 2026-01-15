@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,18 +16,18 @@
  */
 package org.apache.commons.lang3;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests {@link org.apache.commons.lang3.StringUtils} - IsX methods
+ * Tests {@link StringUtils} - IsX methods
  */
-public class StringUtilsIsTest  {
+class StringUtilsIsTest extends AbstractLangTest {
 
     @Test
-    public void testIsAlpha() {
+    void testIsAlpha() {
         assertFalse(StringUtils.isAlpha(null));
         assertFalse(StringUtils.isAlpha(""));
         assertFalse(StringUtils.isAlpha(" "));
@@ -42,7 +42,7 @@ public class StringUtilsIsTest  {
     }
 
     @Test
-    public void testIsAlphanumeric() {
+    void testIsAlphanumeric() {
         assertFalse(StringUtils.isAlphanumeric(null));
         assertFalse(StringUtils.isAlphanumeric(""));
         assertFalse(StringUtils.isAlphanumeric(" "));
@@ -57,38 +57,7 @@ public class StringUtilsIsTest  {
     }
 
     @Test
-    public void testIsWhitespace() {
-        assertFalse(StringUtils.isWhitespace(null));
-        assertTrue(StringUtils.isWhitespace(""));
-        assertTrue(StringUtils.isWhitespace(" "));
-        assertTrue(StringUtils.isWhitespace("\t \n \t"));
-        assertFalse(StringUtils.isWhitespace("\t aa\n \t"));
-        assertTrue(StringUtils.isWhitespace(" "));
-        assertFalse(StringUtils.isWhitespace(" a "));
-        assertFalse(StringUtils.isWhitespace("a  "));
-        assertFalse(StringUtils.isWhitespace("  a"));
-        assertFalse(StringUtils.isWhitespace("aba"));
-        assertTrue(StringUtils.isWhitespace(StringUtilsTest.WHITESPACE));
-        assertFalse(StringUtils.isWhitespace(StringUtilsTest.NON_WHITESPACE));
-    }
-
-    @Test
-    public void testIsAlphaspace() {
-        assertFalse(StringUtils.isAlphaSpace(null));
-        assertTrue(StringUtils.isAlphaSpace(""));
-        assertTrue(StringUtils.isAlphaSpace(" "));
-        assertTrue(StringUtils.isAlphaSpace("a"));
-        assertTrue(StringUtils.isAlphaSpace("A"));
-        assertTrue(StringUtils.isAlphaSpace("kgKgKgKgkgkGkjkjlJlOKLgHdGdHgl"));
-        assertTrue(StringUtils.isAlphaSpace("ham kso"));
-        assertFalse(StringUtils.isAlphaSpace("1"));
-        assertFalse(StringUtils.isAlphaSpace("hkHKHik6iUGHKJgU7tUJgKJGI87GIkug"));
-        assertFalse(StringUtils.isAlphaSpace("_"));
-        assertFalse(StringUtils.isAlphaSpace("hkHKHik*khbkuh"));
-    }
-
-    @Test
-    public void testIsAlphanumericSpace() {
+    void testIsAlphanumericSpace() {
         assertFalse(StringUtils.isAlphanumericSpace(null));
         assertTrue(StringUtils.isAlphanumericSpace(""));
         assertTrue(StringUtils.isAlphanumericSpace(" "));
@@ -103,7 +72,22 @@ public class StringUtilsIsTest  {
     }
 
     @Test
-    public void testIsAsciiPrintable_String() {
+    void testIsAlphaspace() {
+        assertFalse(StringUtils.isAlphaSpace(null));
+        assertTrue(StringUtils.isAlphaSpace(""));
+        assertTrue(StringUtils.isAlphaSpace(" "));
+        assertTrue(StringUtils.isAlphaSpace("a"));
+        assertTrue(StringUtils.isAlphaSpace("A"));
+        assertTrue(StringUtils.isAlphaSpace("kgKgKgKgkgkGkjkjlJlOKLgHdGdHgl"));
+        assertTrue(StringUtils.isAlphaSpace("ham kso"));
+        assertFalse(StringUtils.isAlphaSpace("1"));
+        assertFalse(StringUtils.isAlphaSpace("hkHKHik6iUGHKJgU7tUJgKJGI87GIkug"));
+        assertFalse(StringUtils.isAlphaSpace("_"));
+        assertFalse(StringUtils.isAlphaSpace("hkHKHik*khbkuh"));
+    }
+
+    @Test
+    void testIsAsciiPrintable_String() {
         assertFalse(StringUtils.isAsciiPrintable(null));
         assertTrue(StringUtils.isAsciiPrintable(""));
         assertTrue(StringUtils.isAsciiPrintable(" "));
@@ -129,7 +113,7 @@ public class StringUtilsIsTest  {
     }
 
     @Test
-    public void testIsNumeric() {
+    void testIsNumeric() {
         assertFalse(StringUtils.isNumeric(null));
         assertFalse(StringUtils.isNumeric(""));
         assertFalse(StringUtils.isNumeric(" "));
@@ -151,7 +135,7 @@ public class StringUtilsIsTest  {
     }
 
     @Test
-    public void testIsNumericSpace() {
+    void testIsNumericSpace() {
         assertFalse(StringUtils.isNumericSpace(null));
         assertTrue(StringUtils.isNumericSpace(""));
         assertTrue(StringUtils.isNumericSpace(" "));
@@ -168,6 +152,23 @@ public class StringUtilsIsTest  {
         assertFalse(StringUtils.isNumericSpace("hkHKHik6iUGHKJgU7tUJgKJGI87GIkug"));
         assertFalse(StringUtils.isNumericSpace("_"));
         assertFalse(StringUtils.isNumericSpace("hkHKHik*khbkuh"));
+    }
+
+    @Test
+    void testIsWhitespace() {
+        assertFalse(StringUtils.isWhitespace(null));
+        assertTrue(StringUtils.isWhitespace(""));
+        assertTrue(StringUtils.isWhitespace(" "));
+        assertTrue(StringUtils.isWhitespace("\t \n \t"));
+        assertFalse(StringUtils.isWhitespace("\t aa\n \t"));
+        assertTrue(StringUtils.isWhitespace(" "));
+        assertFalse(StringUtils.isWhitespace(" a "));
+        assertFalse(StringUtils.isWhitespace("a  "));
+        assertFalse(StringUtils.isWhitespace("  a"));
+        assertFalse(StringUtils.isWhitespace("aba"));
+        assertFalse(StringUtils.isWhitespace("a"));
+        assertTrue(StringUtils.isWhitespace(StringUtilsTest.WHITESPACE));
+        assertFalse(StringUtils.isWhitespace(StringUtilsTest.NON_WHITESPACE));
     }
 
 }

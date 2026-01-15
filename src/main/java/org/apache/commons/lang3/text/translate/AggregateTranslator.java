@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,12 +23,12 @@ import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * Executes a sequence of translators one after the other. Execution ends whenever
- * the first translator consumes codepoints from the input.
+ * the first translator consumes code points from the input.
  *
  * @since 3.0
- * @deprecated as of 3.6, use commons-text
- * <a href="https://commons.apache.org/proper/commons-text/javadocs/api-release/org/apache/commons/text/AggregateTranslator.html">
- * AggregateTranslator</a> instead
+ * @deprecated As of <a href="https://commons.apache.org/proper/commons-lang/changes-report.html#a3.6">3.6</a>, use Apache Commons Text
+ * <a href="https://commons.apache.org/proper/commons-text/javadocs/api-release/org/apache/commons/text/translate/AggregateTranslator.html">
+ * AggregateTranslator</a>.
  */
 @Deprecated
 public class AggregateTranslator extends CharSequenceTranslator {
@@ -45,15 +45,15 @@ public class AggregateTranslator extends CharSequenceTranslator {
     }
 
     /**
-     * The first translator to consume codepoints from the input is the 'winner'.
-     * Execution stops with the number of consumed codepoints being returned.
+     * The first translator to consume code points from the input is the 'winner'.
+     * Execution stops with the number of consumed code points being returned.
      * {@inheritDoc}
      */
     @Override
     public int translate(final CharSequence input, final int index, final Writer out) throws IOException {
         for (final CharSequenceTranslator translator : translators) {
             final int consumed = translator.translate(input, index, out);
-            if(consumed != 0) {
+            if (consumed != 0) {
                 return consumed;
             }
         }

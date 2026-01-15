@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,18 +17,18 @@
 
 package org.apache.commons.lang3.builder;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.apache.commons.lang3.AbstractLangTest;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for ToStringExclude annotation
  */
-public class ReflectionToStringBuilderExcludeWithAnnotationTest {
+class ReflectionToStringBuilderExcludeWithAnnotationTest extends AbstractLangTest {
 
-    class TestFixture {
+    final class TestFixture {
         @ToStringExclude
         private final String excludedField = EXCLUDED_FIELD_VALUE;
 
@@ -45,13 +45,12 @@ public class ReflectionToStringBuilderExcludeWithAnnotationTest {
     private static final String EXCLUDED_FIELD_VALUE = "excluded field value";
 
     @Test
-    public void test_toStringExclude() {
+    void test_toStringExclude() {
         final String toString = ReflectionToStringBuilder.toString(new TestFixture());
-
-        assertThat(toString, not(containsString(EXCLUDED_FIELD_NAME)));
-        assertThat(toString, not(containsString(EXCLUDED_FIELD_VALUE)));
-        assertThat(toString, containsString(INCLUDED_FIELD_NAME));
-        assertThat(toString, containsString(INCLUDED_FIELD_VALUE));
+        assertFalse(toString.contains(EXCLUDED_FIELD_NAME));
+        assertFalse(toString.contains(EXCLUDED_FIELD_VALUE));
+        assertTrue(toString.contains(INCLUDED_FIELD_NAME));
+        assertTrue(toString.contains(INCLUDED_FIELD_VALUE));
     }
 
 }

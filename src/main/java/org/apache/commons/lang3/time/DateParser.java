@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,17 +30,45 @@ import java.util.TimeZone;
  * <p>
  * Warning: Since binary compatible methods may be added to this interface in any
  * release, developers are not expected to implement this interface.
+ * </p>
  *
  * @since 3.2
  */
 public interface DateParser {
 
     /**
+     * Gets the locale used by this parser.
+     *
+     * @return the locale
+     */
+    Locale getLocale();
+
+    /**
+     * Gets the pattern used by this parser.
+     *
+     * @return the pattern, {@link java.text.SimpleDateFormat} compatible.
+     */
+    String getPattern();
+
+    /**
+     * Gets the time zone used by this parser.
+     *
+     * <p>
+     * The default {@link TimeZone} used to create a {@link Date} when the {@link TimeZone} is not specified by
+     * the format pattern.
+     * </p>
+     *
+     * @return the time zone
+     */
+    TimeZone getTimeZone();
+
+    /**
      * Equivalent to DateFormat.parse(String).
      *
      * See {@link java.text.DateFormat#parse(String)} for more information.
-     * @param source A <code>String</code> whose beginning should be parsed.
-     * @return A <code>Date</code> parsed from the string
+     *
+     * @param source A {@link String} whose beginning should be parsed.
+     * @return A {@link Date} parsed from the string.
      * @throws ParseException if the beginning of the specified string cannot be parsed.
      */
     Date parse(String source) throws ParseException;
@@ -50,10 +78,10 @@ public interface DateParser {
      *
      * See {@link java.text.DateFormat#parse(String, ParsePosition)} for more information.
      *
-     * @param source A <code>String</code>, part of which should be parsed.
-     * @param pos A <code>ParsePosition</code> object with index and error index information
+     * @param source A {@link String}, part of which should be parsed.
+     * @param pos A {@link ParsePosition} object with index and error index information
      * as described above.
-     * @return A <code>Date</code> parsed from the string. In case of error, returns null.
+     * @return A {@link Date} parsed from the string. In case of error, returns null.
      * @throws NullPointerException if text or pos is null.
      */
     Date parse(String source, ParsePosition pos);
@@ -75,41 +103,11 @@ public interface DateParser {
      */
     boolean parse(String source, ParsePosition pos, Calendar calendar);
 
-    // Accessors
-    //-----------------------------------------------------------------------
-    /**
-     * <p>Gets the pattern used by this parser.</p>
-     *
-     * @return the pattern, {@link java.text.SimpleDateFormat} compatible
-     */
-    String getPattern();
-
-    /**
-     * <p>
-     * Gets the time zone used by this parser.
-     * </p>
-     *
-     * <p>
-     * The default {@link TimeZone} used to create a {@link Date} when the {@link TimeZone} is not specified by
-     * the format pattern.
-     * </p>
-     *
-     * @return the time zone
-     */
-    TimeZone getTimeZone();
-
-    /**
-     * <p>Gets the locale used by this parser.</p>
-     *
-     * @return the locale
-     */
-    Locale getLocale();
-
     /**
      * Parses text from a string to produce a Date.
      *
-     * @param source A <code>String</code> whose beginning should be parsed.
-     * @return a <code>java.util.Date</code> object
+     * @param source A {@link String} whose beginning should be parsed.
+     * @return a {@link java.util.Date} object.
      * @throws ParseException if the beginning of the specified string cannot be parsed.
      * @see java.text.DateFormat#parseObject(String)
      */
@@ -118,9 +116,9 @@ public interface DateParser {
     /**
      * Parses a date/time string according to the given parse position.
      *
-     * @param source A <code>String</code> whose beginning should be parsed.
-     * @param pos the parse position
-     * @return a <code>java.util.Date</code> object
+     * @param source A {@link String} whose beginning should be parsed.
+     * @param pos the parse position.
+     * @return a {@link java.util.Date} object.
      * @see java.text.DateFormat#parseObject(String, ParsePosition)
      */
     Object parseObject(String source, ParsePosition pos);
